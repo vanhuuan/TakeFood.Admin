@@ -16,6 +16,7 @@ import Vouchers from './pages/voucher/vouchers';
 import Admins from './pages/admins/Admins';
 import Stores from './pages/stores/Stores';
 import UserOrders from './pages/users/UserOrder';
+import OrderDetail from './pages/orders/OrderDetail';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path='/admins' element={<DefaultLayout><Admins/></DefaultLayout>}></Route>
           <Route path='/stores' element={<DefaultLayout><Stores/></DefaultLayout>}></Route>
           <Route path='/userOrder' element={<DefaultLayout><UserOrders/></DefaultLayout>}></Route>
+          <Route path='/orderDetail' element={<DefaultLayout><OrderDetail/></DefaultLayout>}></Route>
           {/* <Route path='/store/food/updateFood/' element={<DefaultLayout><CreateFood/></DefaultLayout>}></Route> */}       
         </Routes>      
       </BrowserRouter>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Stack, Box } from '@mui/system'
+import { useLocation } from 'react-router-dom';
 import {
     Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField,
     InputLabel, ListItemText, MenuItem, Select, FormControl, IconButton, Typography, Button, Grid, CircularProgress
@@ -8,10 +9,12 @@ import { AccountCircle, CalendarMonth, LocalShipping, LocationOn } from '@mui/ic
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { storeServices } from '../../services/stores.services';
+import { orderService } from '../../services/order.services';
 
 
 const OrderDetail = () => {
-    let { id } = useParams()
+    const { state } = useLocation();
+    const { id } = state;
     const token = localStorage.getItem("AccessToken")
 
     const [detail, setDetail] = useState({})
@@ -19,11 +22,10 @@ const OrderDetail = () => {
 
     const getOrderDetail = async (orderId, token) => {
         try {
-            const orderDetail = await storeServices.getOrderDetail(orderId, token)
+            const orderDetail = await orderService.getOrderDetail(orderId, token)
             if (orderDetail.data) {
-
                 setDetail(orderDetail.data)
-
+                console.log(orderDetail.data)
             }
         } catch (error) {
             console.error(error);
@@ -152,22 +154,22 @@ const OrderDetail = () => {
                                         <Typography sx={{ textAlign: 'right' }}>
                                             {new Intl.NumberFormat('vi-VN',
                                                 { style: 'currency', currency: 'VND' })
-                                                .format(detail.TempTotalPrice)}
+                                                .format(detail.discount + detail.total)}
                                         </Typography>
                                         <Typography sx={{ textAlign: 'right' }}>
                                             {new Intl.NumberFormat('vi-VN',
                                                 { style: 'currency', currency: 'VND' })
-                                                .format(detail.Discount)}
+                                                .format(detail.discount)}
                                         </Typography>
                                         <Typography sx={{ textAlign: 'right' }}>
                                             {new Intl.NumberFormat('vi-VN',
                                                 { style: 'currency', currency: 'VND' })
-                                                .format(detail.FeeShip)}
+                                                .format(0)}
                                         </Typography>
                                         <Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>
                                             {new Intl.NumberFormat('vi-VN',
                                                 { style: 'currency', currency: 'VND' })
-                                                .format(detail.TotalPrice)}
+                                                .format(detail.total)}
                                         </Typography>
                                         <Typography sx={{ textAlign: 'right', color: '#FF8357', fontWeight: 'bold', marginTop: 2 }}>Đã xác nhận</Typography>
                                     </Grid>

@@ -28,7 +28,6 @@ const Users = () => {
 
     const onUserOrderClick = (e, row) => {
         e.stopPropagation();
-        alert(row.userId)
         navigate('/userOrder', { state: { id: row.userId} });
     };
 

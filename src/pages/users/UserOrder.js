@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import { Box, Slider } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -104,33 +105,40 @@ function numFormatter(num) {
     }
 }
 
-
-const columns = [
-    { field: 'stt', headerName: 'STT', width: 50, sortable: false },
-    { field: 'orderId', headerName: 'Mã đơn hàng', width: 200, sortable: false },
-    { field: 'address', headerName: 'Địa chỉ nhận hàng', width: 200, sortable: false },
-    { field: 'phoneNumber', headerName: 'SĐT nhận hàng', width: 200, sortable: false },
-    {
-        field: 'total',
-        headerName: 'Thành tiền',
-        width: 110,
-        sortable: false,
-    },
-    { field: 'orderDate', headerName: 'Ngày đặt hàng', width: 100, sortable: false },
-    { field: 'state', headerName: 'Trạng thái', width: 120, sortable: false },
-    {
-        field: 'Đơn hàng',
-        headerName: 'Đơn hàng',
-        description: 'Xem chi tiết đơn hàng.',
-        sortable: false,
-        width: 90,
-        renderCell: (params) => {
-            return <IconButton sx={{ color: blue }}> <VisibilityIcon></VisibilityIcon> </IconButton>
-        }
-    }
-];
-
 const UserOrders = (props) => {
+    const navigate = useNavigate()
+
+    const onOrderClick = (e, row) => {
+        e.stopPropagation();
+        navigate('/orderDetail', { state: { id: row.orderId } });
+    };
+    const columns = [
+        { field: 'stt', headerName: 'STT', width: 50, sortable: false },
+        { field: 'orderId', headerName: 'Mã đơn hàng', width: 200, sortable: false },
+        { field: 'address', headerName: 'Địa chỉ nhận hàng', width: 200, sortable: false },
+        { field: 'phoneNumber', headerName: 'SĐT nhận hàng', width: 200, sortable: false },
+        {
+            field: 'total',
+            headerName: 'Thành tiền',
+            width: 110,
+            sortable: false,
+        },
+        { field: 'orderDate', headerName: 'Ngày đặt hàng', width: 100, sortable: false },
+        { field: 'state', headerName: 'Trạng thái', width: 120, sortable: false },
+        {
+            field: 'Đơn hàng',
+            headerName: 'Đơn hàng',
+            description: 'Xem chi tiết đơn hàng.',
+            sortable: false,
+            width: 90,
+            renderCell: (params) => {
+                return <IconButton sx={{ color: blue }}
+                    onClick={(e) => onOrderClick(e, params.row)}
+                    variant="contained"> <VisibilityIcon></VisibilityIcon>
+                </IconButton>
+            }
+        }
+    ];
 
     const { state } = useLocation();
     const { id } = state;
@@ -163,12 +171,12 @@ const UserOrders = (props) => {
 
     const [stateType, setStateType] = useState("All")
     const [sortType, setSortType] = useState("Asc")
-    const [sortBy, setSortBy] = useState("Name")
+    const [sortBy, setSortBy] = useState("CreateDay")
     const token = localStorage.getItem("AccessToken")
 
     const fetchData = async () => {
         setPageState(old => ({ ...old, isLoading: true }))
-        var response = await userServices.getUserOrderPaging(pageState.page, pageState.pageSize, value[0], value[1]*1000, stateType, startDay.toISOString(), endDay.toISOString(), sortBy, sortType, id, token);
+        var response = await userServices.getUserOrderPaging(pageState.page, pageState.pageSize, value[0], value[1] * 1000, stateType, startDay.toISOString(), endDay.toISOString(), sortBy, sortType, id, token);
         if (response.data) {
             const json = response.data
             console.log(json)
@@ -245,9 +253,9 @@ const UserOrders = (props) => {
                                 label="Sort field"
                                 onChange={e => { setSortBy(e.target.value) }}
                             >
-                                <MenuItem value={"Name"}>Tên</MenuItem>
-                                <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
-                                <MenuItem value={"Email"}>Email</MenuItem>
+                                <MenuItem value={"Total"}>Tổng tiền</MenuItem>
+                                <MenuItem value={"CreateDate"}>Ngày đặt hàng</MenuItem>
+                                <MenuItem value={"OrderId"}>Mã đơn hàng</MenuItem>
                             </Select>
                             <Select
                                 labelId="demo-simple-select-required-label"
