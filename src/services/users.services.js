@@ -11,4 +11,14 @@ export const userServices = {
             }
         )
     },
+    getUserOrderPaging: async (pageNumber, pageSize, from, to,  StateType, startDay, endDay, sortBy, sortType, uid, token) => {
+        return await axios.get(
+            `https://takefooduserorder.azurewebsites.net/GetOrderPaging?UserId=${uid}&PageNumber=${pageNumber}&PageSize=${pageSize}&From=${from}&To=${to}&StateType=${StateType}&SortBy=${sortBy}&SortType=${sortType}&CreatedFrom=${startDay}&CreatedTo=${endDay}`, 
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
 }

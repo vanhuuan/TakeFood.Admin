@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
@@ -22,56 +23,67 @@ import { userServices } from '../../services/users.services';
 const blue = '#89D5C9'
 const orange = '#FF8357'
 
-const columns = [
-    { field: 'stt', headerName: 'STT', width: 50, sortable: false },
-    { field: 'name', headerName: 'Tên', width: 200, sortable: false },
-    { field: 'email', headerName: 'Email', width: 200, sortable: false },
-    { field: 'address', headerName: 'Địa chỉ', width: 200, sortable: false },
-    {
-        field: 'phoneNumber',
-        headerName: 'Số điện thoại',
-        width: 110,
-        sortable: false,
-    },
-    { field: 'gender', headerName: 'Giới tính', width: 100, sortable: false },
-    { field: 'status', headerName: 'Trạng thái', width: 120, sortable: false },
-    {
-        field: 'Đơn hàng',
-        headerName: 'Đơn hàng',
-        description: 'Xem danh sách đơn hàng.',
-        sortable: false,
-        width: 90,
-        renderCell: (params) => {
-            return <IconButton sx={{ color: blue }}> <VisibilityIcon></VisibilityIcon> </IconButton>
-        }
-    },
-    {
-        field: 'Action',
-        headerName: 'Action',
-        description: 'Xem danh sách đơn hàng.',
-        sortable: false,
-        width: 90,
-        renderCell: (params) => {
-            return (
-                <div>
-                    <span>
-                        <IconButton sx={{ color: blue }}>
-                            <NotInterestedIcon>
-                            </NotInterestedIcon>
-                        </IconButton>
-                    </span>
-                    <span>
-                        <IconButton sx={{ color: orange }}>
-                            <DeleteIcon>
-                            </DeleteIcon>
-                        </IconButton>
-                    </span>
-                </div>)
-        }
-    },
-];
-
 const Users = () => {
+    const navigate = useNavigate()
+
+    const onUserOrderClick = (e, row) => {
+        e.stopPropagation();
+        alert(row.userId)
+        navigate('/userOrder', { state: { id: row.userId} });
+    };
+
+    const columns = [
+        { field: 'stt', headerName: 'STT', width: 50, sortable: false },
+        { field: 'name', headerName: 'Tên', width: 200, sortable: false },
+        { field: 'email', headerName: 'Email', width: 200, sortable: false },
+        { field: 'address', headerName: 'Địa chỉ', width: 200, sortable: false },
+        {
+            field: 'phoneNumber',
+            headerName: 'Số điện thoại',
+            width: 110,
+            sortable: false,
+        },
+        { field: 'gender', headerName: 'Giới tính', width: 100, sortable: false },
+        { field: 'status', headerName: 'Trạng thái', width: 120, sortable: false },
+        {
+            field: 'Đơn hàng',
+            headerName: 'Đơn hàng',
+            description: 'Xem danh sách đơn hàng.',
+            sortable: false,
+            width: 90,
+            renderCell: (params) => {
+                return <IconButton sx={{ color: blue }}
+                    onClick={(e) => onUserOrderClick(e, params.row)}
+                    variant="contained">
+                    <VisibilityIcon></VisibilityIcon>
+                </IconButton>
+            }
+        },
+        {
+            field: 'Action',
+            headerName: 'Action',
+            description: 'Xem danh sách đơn hàng.',
+            sortable: false,
+            width: 90,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        <span>
+                            <IconButton sx={{ color: blue }}>
+                                <NotInterestedIcon>
+                                </NotInterestedIcon>
+                            </IconButton>
+                        </span>
+                        <span>
+                            <IconButton sx={{ color: orange }}>
+                                <DeleteIcon>
+                                </DeleteIcon>
+                            </IconButton>
+                        </span>
+                    </div>)
+            }
+        },
+    ];
 
     const [pageState, setPageState] = useState({
         isLoading: false,
@@ -95,14 +107,14 @@ const Users = () => {
         }
         if (queryType.toString() == "All") {
             response = await await userServices.getUserPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType, token)
-        }else if (queryString) {
+        } else if (queryString) {
             response = await await userServices.getUserPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType, token)
             if (response.data) {
                 const json = response.data
                 console.log(json)
                 setPageState(old => ({ ...old, isLoading: false, data: json.cards, total: json.total }))
             }
-        }else{
+        } else {
             alert("Query string cannot be null or empty")
             return;
         }
