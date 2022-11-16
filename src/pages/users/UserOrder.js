@@ -171,7 +171,7 @@ const UserOrders = (props) => {
 
     const [stateType, setStateType] = useState("All")
     const [sortType, setSortType] = useState("Asc")
-    const [sortBy, setSortBy] = useState("CreateDay")
+    const [sortBy, setSortBy] = useState("CreateDate")
     const token = localStorage.getItem("AccessToken")
 
     const fetchData = async () => {

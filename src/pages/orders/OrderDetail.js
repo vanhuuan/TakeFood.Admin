@@ -82,15 +82,12 @@ const OrderDetail = () => {
                                                 weekday: 'long',
                                                 year: 'numeric',
                                                 timeZone: 'Asia/Ho_Chi_Minh',
-                                            }).format(Date.parse(detail.DateOrder))}
+                                            }).format(Date.parse(detail.orderDate))}
                                     </Typography>
                                     <Typography>
-                                        Mã đơn hàng: {detail.OrderID}
+                                        Mã đơn hàng: {detail.orderId}
                                     </Typography>
                                 </div>
-                                <Button variant='contained' sx={{ backgroundColor: 'white', color: mainColor }}>
-                                    Chuyển trạng thái thành đang giao hàng
-                                </Button>
                             </Box>
                             <Grid container paddingX={2} >
                                 <Grid item xs={4}>
@@ -99,12 +96,12 @@ const OrderDetail = () => {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <LocalShipping sx={{ color: mainColor }} />
-                                    <Typography>{detail.Phone}</Typography>
-                                    <Typography>Thanh toán: {detail.PaymentMethod}</Typography>
+                                    <Typography>{detail.phoneNumber}</Typography>
+                                    <Typography>Thanh toán: {detail.paymentMethod}</Typography>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <LocationOn sx={{ color: mainColor }} />
-                                    <Typography> {detail.Address}</Typography>
+                                    <Typography> {detail.address}</Typography>
                                 </Grid>
                             </Grid>
                             <Box sx={{ paddingX: 10 }}  >
@@ -121,25 +118,22 @@ const OrderDetail = () => {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            <TableRow
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <TableCell align="center">1</TableCell>
-                                                <TableCell align="center">Trà sữa truyền thống</TableCell>
-                                                <TableCell align="center">25000đ</TableCell>
-                                                <TableCell align="center">1</TableCell>
-                                                <TableCell align="center">25000đ</TableCell>
-                                            </TableRow>
-                                            <TableRow>
-                                                <TableCell align="center" colSpan={4} >Trân châu đen</TableCell>
-                                                <TableCell align="center" >5000đ</TableCell>
-                                            </TableRow>
-                                            {/* bảng riêng */}
+                                            {detail.foods.map((s, i = 0) => (
+                                                <TableRow
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                    <TableCell align="center">{++i}</TableCell>
+                                                    <TableCell align="center">{s.foodName}</TableCell>
+                                                    <TableCell align="center">{s.total / s.quantity}</TableCell>
+                                                    <TableCell align="center">{s.quantity}</TableCell>
+                                                    <TableCell align="center">{s.total}</TableCell>
+                                                </TableRow>
+                                            ))}
+
 
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                                <Typography variant="subtitle2" mt={1}>Ghi chú: {detail.Note}</Typography>
+                                <Typography variant="subtitle2" mt={1}>Ghi chú: {detail.note}</Typography>
 
                                 <Grid container sx={{ marginY: 2 }}>
                                     <Grid item xs={6} />
@@ -171,7 +165,7 @@ const OrderDetail = () => {
                                                 { style: 'currency', currency: 'VND' })
                                                 .format(detail.total)}
                                         </Typography>
-                                        <Typography sx={{ textAlign: 'right', color: '#FF8357', fontWeight: 'bold', marginTop: 2 }}>Đã xác nhận</Typography>
+                                        <Typography sx={{ textAlign: 'right', color: '#FF8357', fontWeight: 'bold', marginTop: 2 }}>{detail.state}</Typography>
                                     </Grid>
                                 </Grid>
                             </Box>
