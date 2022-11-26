@@ -42,4 +42,14 @@ export const userServices = {
             }
         )
     },
+    getNewUsser: async (token) => {
+        return await axios.get(
+            `https://takefoodauthentication.azurewebsites.net/GetNewsUser`, 
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
 }
