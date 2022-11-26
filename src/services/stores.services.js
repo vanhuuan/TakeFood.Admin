@@ -63,4 +63,34 @@ export const storeServices = {
             }
         )
     },
+    getStoreDetail: async (storeId, token) => {
+        return await axios.get(
+            `https://takefoodstoreservice.azurewebsites.net/GetRegisterDetailStore?storeId=${storeId}`, 
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
+    activeStore: async (storeId, token) => {
+        return await axios.put(
+            `https://takefoodstoreservice.azurewebsites.net/ActiveStore?storeId=${storeId}`, null,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
+    deactiveStore: async (storeId, token) => {
+        return await axios.put(
+            `https://takefoodstoreservice.azurewebsites.net/DeActiveStore?storeId=${storeId}`, null,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
 }

@@ -1,8 +1,9 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
+import theme from '../../theme';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -18,48 +19,66 @@ import InputLabel from '@mui/material/InputLabel';
 import Grid from '@mui/material/Grid';
 import { Label } from '@mui/icons-material';
 import { userServices } from '../../services/users.services';
+import { adminServices } from '../../services/admin.services';
 
 const blue = '#89D5C9'
 const orange = '#FF8357'
 
-const columns = [
-    { field: 'stt', headerName: 'STT', width: 50, sortable: false },
-    { field: 'name', headerName: 'Tên', width: 300, sortable: false },
-    { field: 'email', headerName: 'Email', width: 300, sortable: false },
-    {
-        field: 'phoneNumber',
-        headerName: 'Số điện thoại',
-        width: 200,
-        sortable: false,
-    },
-    { field: 'status', headerName: 'Trạng thái', width: 200, sortable: false },
-    {
-        field: 'Action',
-        headerName: 'Action',
-        description: 'Action can perform',
-        sortable: false,
-        width: 100,
-        renderCell: (params) => {
-            return (
-                <div>
-                    <span>
-                        <IconButton sx={{ color: blue }}>
-                            <NotInterestedIcon>
-                            </NotInterestedIcon>
-                        </IconButton>
-                    </span>
-                    <span>
-                        <IconButton sx={{ color: orange }}>
-                            <DeleteIcon>
-                            </DeleteIcon>
-                        </IconButton>
-                    </span>
-                </div>)
-        }
-    },
-];
-
 const Admins = () => {
+    const onRemoveAdminClick = (e, row) => {
+        e.stopPropagation();
+        if (window.confirm(`Bạn có chắc muốn loại ${row.name} khỏi admin`)) {
+            adminServices.removeAdmin(row.userId, token)
+            fetchData()
+        }
+    };
+
+    const onMakeAdminClick = (event) => {
+        const enteredName = prompt('Please enter the admin\'s email')
+        if(enteredName){
+            adminServices.makeAdmin(enteredName, token)
+            fetchData()
+        }
+    }
+
+    const columns = [
+        { field: 'stt', headerName: 'STT', width: 50, sortable: false },
+        { field: 'name', headerName: 'Tên', width: 300, sortable: false },
+        { field: 'email', headerName: 'Email', width: 300, sortable: false },
+        {
+            field: 'phoneNumber',
+            headerName: 'Số điện thoại',
+            width: 200,
+            sortable: false,
+        },
+        { field: 'status', headerName: 'Trạng thái', width: 200, sortable: false },
+        {
+            field: 'Action',
+            headerName: 'Action',
+            description: 'Action can perform',
+            sortable: false,
+            width: 100,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        {/* <span>
+                            <IconButton sx={{ color: blue }}>
+                                <NotInterestedIcon>
+                                </NotInterestedIcon>
+                            </IconButton>
+                        </span> */}
+                        <span>
+                            <IconButton sx={{ color: orange }}
+                                onClick={(e) => onRemoveAdminClick(e, params.row)}
+                                variant="contained">
+                                <DeleteIcon>
+                                </DeleteIcon>
+                            </IconButton>
+                        </span>
+                    </div>)
+            }
+        },
+    ];
 
     const [pageState, setPageState] = useState({
         isLoading: false,
@@ -82,15 +101,15 @@ const Admins = () => {
             setQueryString("All");
         }
         if (queryType.toString() == "All") {
-            response = await await userServices.getUserPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType, token)
-        }else if (queryString) {
-            response = await await userServices.getUserPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType, token)
+            response = await await adminServices.getAdminPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType, token)
+        } else if (queryString) {
+            response = await await adminServices.getAdminPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType, token)
             if (response.data) {
                 const json = response.data
                 console.log(json)
                 setPageState(old => ({ ...old, isLoading: false, data: json.cards, total: json.total }))
             }
-        }else{
+        } else {
             alert("Query string cannot be null or empty")
             return;
         }
@@ -162,6 +181,13 @@ const Admins = () => {
                             <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={fetchData}>
                                 <SearchIcon />
                             </IconButton>
+                            <Button variant="contained" size="large"
+                                onClick={onMakeAdminClick}
+                                sx={{
+                                    backgroundColor: theme.palette.primary.main,
+                                    width: 'fit-content'
+                                }}
+                            >Thêm Admin</Button>
                         </Card>
                     </Grid>
                 </Grid>

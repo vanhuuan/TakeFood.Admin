@@ -1,4 +1,5 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useEffect, useState } from 'react';
@@ -20,16 +21,31 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { voucherServices } from '../../services/voucher.services';
+import theme from '../../theme';
 
 const blue = '#89D5C9'
 const orange = '#FF8357'
 
-
-
 const Vouchers = () => {
-    const onButtonClick = (e, row) => {
+
+    const navigate = useNavigate()
+
+    const onEditVoucherClick = (e, row) => {
         e.stopPropagation();
-        alert(row.voucherId)
+        navigate('/updateVoucher', { state: { id: row.voucherId } });
+    };
+
+    const onDeleteVoucherClick = (e, row) => {
+        e.stopPropagation();
+        if (window.confirm(`Bạn có chắc muốn xóa voucher ${row.name} không`)) {
+            voucherServices.deleteVoucher(row.voucherId, token)
+            fetchData()
+        }
+    };
+
+    const onCreateVoucher = (e, row) => {
+        e.stopPropagation();
+        navigate('/createVoucher');
     };
     const columns = [
         { field: 'stt', headerName: 'STT', width: 50, sortable: false },
@@ -57,14 +73,16 @@ const Vouchers = () => {
                     <div>
                         <span>
                             <IconButton sx={{ color: blue }}
-                                onClick={(e) => onButtonClick(e, params.row)}
+                                onClick={(e) => onEditVoucherClick(e, params.row)}
                                 variant="contained">
                                 <EditIcon>
                                 </EditIcon>
                             </IconButton>
                         </span>
                         <span>
-                            <IconButton sx={{ color: orange }}>
+                            <IconButton sx={{ color: orange }}
+                             onClick={(e) => onDeleteVoucherClick(e, params.row)}
+                             variant="contained">
                                 <DeleteIcon>
                                 </DeleteIcon>
                             </IconButton>
@@ -202,6 +220,13 @@ const Vouchers = () => {
                             <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={fetchData}>
                                 <SearchIcon />
                             </IconButton>
+                            <Button variant="contained" size="large"
+                                onClick={onCreateVoucher}
+                                sx={{
+                                    backgroundColor: theme.palette.primary.main,
+                                    width: 'fit-content'
+                                }}
+                            >Thêm Voucher</Button>
                         </Card>
                     </Grid>
                 </Grid>

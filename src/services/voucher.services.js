@@ -12,4 +12,46 @@ export const voucherServices = {
             }
         )
     },
+    createVoucher: async (data, token) => {
+        return await axios.post(
+            `https://takefoodvoucherservice.azurewebsites.net/AddSystemVoucher`,
+            data,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
+    getVoucherById: async (id, token) => {
+        return await axios.get(
+            `https://takefoodvoucherservice.azurewebsites.net/GetVoucherByID?ID=${id}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
+    updateVoucher: async (data, token) => {
+        return await axios.put(
+            `https://takefoodvoucherservice.azurewebsites.net/UpdateSystemVoucher`,
+            data,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
+    deleteVoucher: async (id, token) => {
+        return await axios.delete(
+            `https://takefoodvoucherservice.azurewebsites.net/DeleteSystemVoucher?id=${id}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
 }

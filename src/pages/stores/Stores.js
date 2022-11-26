@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useEffect, useState } from 'react';
@@ -23,51 +24,60 @@ import { storeServices } from '../../services/stores.services';
 const blue = '#89D5C9'
 const orange = '#FF8357'
 
-const columns = [
-    { field: 'stt', headerName: 'STT', width: 50, sortable: false },
-    { field: 'name', headerName: 'Tên cửa hàng', width: 200, sortable: false },
-    { field: 'ownerName', headerName: 'Chủ cửa hàng', width: 200, sortable: false },
-    { field: 'address', headerName: 'Địa chỉ', width: 250, sortable: false },
-    {
-        field: 'phoneNumber',
-        headerName: 'Số điện thoại',
-        width: 200,
-        sortable: false,
-    },
-    { field: 'state', headerName: 'Trạng thái', width: 120, sortable: false },
-    {
-        field: 'Action',
-        headerName: 'Action',
-        description: 'Xem danh sách đơn hàng.',
-        sortable: false,
-        width: 150,
-        renderCell: (params) => {
-            return (
-                <div>
-                    <span>
-                        <IconButton sx={{ color: blue }}>
-                            <RemoveRedEye>
-                            </RemoveRedEye>
-                        </IconButton>
-                    </span>
-                    <span>
-                        <IconButton sx={{ color: blue }}>
-                            <EditIcon>
-                            </EditIcon>
-                        </IconButton>
-                    </span>
-                    <span>
-                        <IconButton sx={{ color: orange }}>
-                            <DeleteIcon>
-                            </DeleteIcon>
-                        </IconButton>
-                    </span>
-                </div>)
-        }
-    },
-];
-
 const Stores = () => {
+
+    const navigate = useNavigate()
+
+    const onDetailClick = (e, row) => {
+        e.stopPropagation();
+        navigate('/storeDetail', { state: { id: row.storeId } });
+    };
+
+    const columns = [
+        { field: 'stt', headerName: 'STT', width: 50, sortable: false },
+        { field: 'name', headerName: 'Tên cửa hàng', width: 200, sortable: false },
+        { field: 'ownerName', headerName: 'Chủ cửa hàng', width: 200, sortable: false },
+        { field: 'address', headerName: 'Địa chỉ', width: 250, sortable: false },
+        {
+            field: 'phoneNumber',
+            headerName: 'Số điện thoại',
+            width: 200,
+            sortable: false,
+        },
+        { field: 'state', headerName: 'Trạng thái', width: 120, sortable: false },
+        {
+            field: 'Action',
+            headerName: 'Action',
+            description: 'Xem danh sách đơn hàng.',
+            sortable: false,
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        <span>
+                            <IconButton sx={{ color: blue }}
+                            onClick={(e) => onDetailClick(e, params.row)}
+                            variant="contained">
+                                <RemoveRedEye>
+                                </RemoveRedEye>
+                            </IconButton>
+                        </span>
+                        {/* <span>
+                            <IconButton sx={{ color: blue }}>
+                                <EditIcon>
+                                </EditIcon>
+                            </IconButton>
+                        </span>
+                        <span>
+                            <IconButton sx={{ color: orange }}>
+                                <DeleteIcon>
+                                </DeleteIcon>
+                            </IconButton>
+                        </span> */}
+                    </div>)
+            }
+        },
+    ];
 
     const [pageState, setPageState] = useState({
         isLoading: false,

@@ -24,11 +24,30 @@ const blue = '#89D5C9'
 const orange = '#FF8357'
 
 const Users = () => {
+    const token = localStorage.getItem("AccessToken")
     const navigate = useNavigate()
 
     const onUserOrderClick = (e, row) => {
         e.stopPropagation();
-        navigate('/userOrder', { state: { id: row.userId} });
+        navigate('/userOrder', { state: { id: row.userId } });
+    };
+
+    const onChangeStatusClick = async (e, row) => {
+        e.stopPropagation();
+        var token = localStorage.getItem("AccessToken")
+        if(window.confirm(`Bạn có chắc muốn đổi trạng thái người dùng ${row.name}`)){
+            await userServices.changeUserState(row.userId, token)
+            fetchData()
+        }
+    };
+
+    const onDeleteClick = async (e, row) => {
+        e.stopPropagation();
+        var token = localStorage.getItem("AccessToken")
+        if(window.confirm(`Bạn có chắc muốn xóa người dùng ${row.name}`)){
+            await userServices.deleteUsser(row.userId, token)
+            fetchData()
+        }
     };
 
     const columns = [
@@ -68,13 +87,17 @@ const Users = () => {
                 return (
                     <div>
                         <span>
-                            <IconButton sx={{ color: blue }}>
+                            <IconButton sx={{ color: blue }}
+                                onClick={(e) => onChangeStatusClick(e, params.row)}
+                                variant="contained">
                                 <NotInterestedIcon>
                                 </NotInterestedIcon>
                             </IconButton>
                         </span>
                         <span>
-                            <IconButton sx={{ color: orange }}>
+                            <IconButton sx={{ color: orange }}
+                                onClick={(e) => onDeleteClick(e, params.row)}
+                                variant="contained">
                                 <DeleteIcon>
                                 </DeleteIcon>
                             </IconButton>
@@ -96,7 +119,6 @@ const Users = () => {
     const [queryType, setQueryType] = useState("All")
     const [sortType, setSortType] = useState("Asc")
     const [sortBy, setSortBy] = useState("Name")
-    const token = localStorage.getItem("AccessToken")
 
     const fetchData = async () => {
         setPageState(old => ({ ...old, isLoading: true }))

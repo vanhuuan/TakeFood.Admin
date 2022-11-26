@@ -72,7 +72,7 @@ const OrderDetail = () => {
                                 <div>
                                     <Typography>
                                         <CalendarMonth />
-                                        {detail.DateOrder &&
+                                        {detail.orderDate &&
                                             new Intl.DateTimeFormat('vi-VN', {
                                                 hour: 'numeric',
                                                 minute: 'numeric',
@@ -92,7 +92,7 @@ const OrderDetail = () => {
                             <Grid container paddingX={2} >
                                 <Grid item xs={4}>
                                     <AccountCircle sx={{ color: mainColor }} />
-                                    <Typography> {detail.NameUser}</Typography>
+                                    <Typography> {detail.storeName}</Typography>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <LocalShipping sx={{ color: mainColor }} />
@@ -119,6 +119,7 @@ const OrderDetail = () => {
                                         </TableHead>
                                         <TableBody>
                                             {detail.foods.map((s, i = 0) => (
+                                                <>
                                                 <TableRow
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                     <TableCell align="center">{++i}</TableCell>
@@ -127,6 +128,17 @@ const OrderDetail = () => {
                                                     <TableCell align="center">{s.quantity}</TableCell>
                                                     <TableCell align="center">{s.total}</TableCell>
                                                 </TableRow>
+                                                {s.toppings.map((topping) => (
+                                                    <TableRow sx={{ fontSize: 'smaller' }}>
+                                                        <TableCell align="center" colSpan={3} >{topping.toppingName}</TableCell>
+                                                        <TableCell align="center" >{topping.quantity}</TableCell>
+                                                        <TableCell align="right" >
+                                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                                                                .format(topping.total)}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                                </>
                                             ))}
 
 

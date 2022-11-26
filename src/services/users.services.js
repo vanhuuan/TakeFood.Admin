@@ -21,4 +21,25 @@ export const userServices = {
             }
         )
     },
+    changeUserState: async (uid, token) => {
+        console.log(token)
+        return await axios.put(
+        `https://takefoodauthentication.azurewebsites.net/ChangeUserStatus?id=${uid}`, null , 
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
+    deleteUsser: async (uid, token) => {
+        return await axios.delete(
+            `https://takefoodauthentication.azurewebsites.net/DeleteUser?id=${uid}`, 
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        )
+    },
 }
