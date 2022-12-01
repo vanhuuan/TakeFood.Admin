@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './login.css'
+// import './login.css'
 import LogoOrange from '../../assets/images/LogoOrange.png'
 import { Box, Button, TextField, } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment';
@@ -71,6 +71,7 @@ const Login = () => {
           margin="auto"
           marginTop={5}
           padding={3}
+          backgroundColor='white'
           boxShadow={'0px 0px 10px #7D7D7E'}>
 
           <Typography variant='h5' padding={1}>ĐĂNG NHẬP CHO WEB ADMIN</Typography>
@@ -99,7 +100,7 @@ const Login = () => {
           <Button sx={{ marginTop: 2, borderRadius: 5, backgroundColor: "#89D5C9", fontSize: 16, fontStyle: "bold" }} variant="contained" onClick={handleLogin} >ĐĂNG NHẬP</Button>
         </Box>
       </form>
-    </div>
+    </div >
   )
 }
 

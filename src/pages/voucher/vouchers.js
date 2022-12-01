@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, FormControl, InputAdornment, Stack, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
@@ -81,8 +81,8 @@ const Vouchers = () => {
                         </span>
                         <span>
                             <IconButton sx={{ color: orange }}
-                             onClick={(e) => onDeleteVoucherClick(e, params.row)}
-                             variant="contained">
+                                onClick={(e) => onDeleteVoucherClick(e, params.row)}
+                                variant="contained">
                                 <DeleteIcon>
                                 </DeleteIcon>
                             </IconButton>
@@ -125,14 +125,14 @@ const Vouchers = () => {
         }
         if (queryType.toString() == "All") {
             response = await voucherServices.getSystemVoucherPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType, startDay.toISOString(), endDay.toISOString(), token)
-        }else if (queryString) {
+        } else if (queryString) {
             response = await voucherServices.getSystemVoucherPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType, startDay.toISOString(), endDay.toISOString(), token)
             if (response.data) {
                 const json = response.data
                 console.log(json)
                 setPageState(old => ({ ...old, isLoading: false, data: json.cards, total: json.total }))
             }
-        }else{
+        } else {
             alert("Query string cannot be null or empty")
             return;
         }
@@ -148,7 +148,113 @@ const Vouchers = () => {
     }, [pageState.page, pageState.pageSize])
     return (
         <div>
-            <Box>
+            <Stack>
+                <Button variant="contained" size="large"
+                    onClick={onCreateVoucher}
+                    sx={{
+                        backgroundColor: theme.palette.primary.main,
+                        width: 'fit-content',
+                        marginBottom: 2,
+                        alignSelf: 'end'
+                    }}
+                >Thêm voucher</Button>
+                <Paper
+                    component="form"
+                    sx={{ padding: 2 }}
+                >
+                    <Grid container spacing={1}>
+                        <Grid item xs={12} >
+                            <FormControl sx={{ ml: 2, mt: 2 }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                    <DateTimePicker
+                                        label="Ngày bắt đầu áp dụng"
+                                        value={startDay}
+                                        onChange={handleStartDayChange}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+                            <FormControl sx={{ ml: 2, mt: 2 }}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DateTimePicker
+                                        label="Ngày kết thúc"
+                                        value={endDay}
+                                        onChange={handleEndDayChange}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+
+                        </Grid>
+                        <Grid item xs={7}>
+                            <Typography sx={{ ml: 2, mb: 1 }}>Lọc theo: </Typography>
+                            <Select
+                                labelId="demo-simple-select-required-label"
+                                id="demo-simple-select-required"
+                                value={queryType}
+                                label="Search feld"
+                                onChange={e => { setQueryType(e.target.value) }}
+                                className='option'
+                                size="small"
+                            >
+                                <MenuItem value={"All"}>Tất cả</MenuItem>
+                                <MenuItem value={"Name"}>Voucher</MenuItem>
+                                <MenuItem value={"Code"}>Mã</MenuItem>
+                            </Select>
+                            <TextField
+                                placeholder="Text to search"
+                                inputProps={{ 'aria-label': 'Text To Search' }}
+                                value={queryString}
+                                onChange={e => { setQueryString(e.target.value) }}
+                                variant='outlined'
+                                size='small'
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position='end'>
+                                            <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={fetchData}>
+                                                <SearchIcon />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
+                                sx={{ ml: 2 }}
+                            />
+                        </Grid>
+                        <Grid item xs={5}>
+                            <Typography sx={{ ml: 2, mb: 1 }}>Sắp xếp theo: </Typography>
+                            <Select
+                                labelId="demo-simple-select-required-label"
+                                id="demo-simple-select-required"
+                                value={sortBy}
+                                label="Sort field"
+                                onChange={e => { setSortBy(e.target.value) }}
+                                className='option'
+                                size="small"
+                            >
+                                <MenuItem value={"StartDate"}>Ngày bắt đầu</MenuItem>
+                                <MenuItem value={"EndDate"}>Ngày kết thúc</MenuItem>
+                                <MenuItem value={"Name"}>Voucher</MenuItem>
+                                <MenuItem value={"Code"}>Code</MenuItem>
+                            </Select>
+                            <Select
+                                labelId="demo-simple-select-required-label"
+                                id="demo-simple-select-required"
+                                value={sortType}
+                                label="Sort type"
+                                onChange={e => { setSortType(e.target.value); }}
+                                className='option'
+                                size="small"
+                            >
+                                <MenuItem value={"Asc"}>Tăng dần</MenuItem>
+                                <MenuItem value={"Desc"}>Giảm dần</MenuItem>
+                            </Select>
+                        </Grid>
+
+                    </Grid>
+
+                </Paper>
+            </Stack>
+            {/* <Box>
                 <Grid container spacing={2}>
                     <Grid item xs={6} md={8}>
                         <Card>
@@ -230,9 +336,9 @@ const Vouchers = () => {
                         </Card>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box> */}
             <Box>
-                <div style={{ height: 400, width: '100%' }}>
+                <div className='table-container'>
                     <DataGrid
                         autoHeight
                         rows={pageState.data}

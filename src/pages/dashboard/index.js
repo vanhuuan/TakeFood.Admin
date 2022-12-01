@@ -1,5 +1,5 @@
 import { PersonPinCircleOutlined } from '@mui/icons-material';
-import { Card } from '@mui/material';
+import { Card, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
@@ -51,13 +51,13 @@ const Dashboard = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Item>
-                        <h2>Doang thu tháng này</h2>
-                        <h3>1000</h3>
+                        <Typography variant='h6'>Doang thu tháng này</Typography>
+                        <Typography variant='h5' sx={{ marginY: 2, fontWeight: 'bold' }}>1000</Typography>
                     </Item>
                 </Grid>
                 {isLoading ? <></> :
                     <Grid item xs={8}>
-                        {/* <Income chartData={chartData}/> */}
+                        <Income chartData={chartData} />
                     </Grid>
                 }
                 {isLoading ? <></> :

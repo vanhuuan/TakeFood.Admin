@@ -6,7 +6,7 @@ import {
     Link,
     useNavigate
 } from "react-router-dom";
-import { Button, Typography } from '@mui/material';
+import { AppBar, Button, Typography } from '@mui/material';
 
 
 function Header() {
@@ -30,15 +30,20 @@ function Header() {
         navigate("/")
     }
     return (
-        <header>
+        <AppBar position="fixed"
+            sx={{ flexDirection: 'inherit', background: 'white', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <div className='container'>
                 <img src={LogoTurquoise} style={{ width: 60 }} alt="Logo" />
                 <Link exact="true" to="/"><span className='brand'>Foorder</span></Link>
             </div>
-            {isLogin ? <><Typography>{userName}</Typography> <Button onClick={logout}>Đăng xuất</Button></> : <Link to="/login">Đăng nhập</Link>}
+            {isLogin ?
+                <div className='container'>
+                    <Typography color='black'>{userName}</Typography>
+                    <Button style={{ marginLeft: 10 }} onClick={logout}>Đăng xuất</Button>
+                </div>
+                : <Link to="/login">Đăng nhập</Link>}
 
-
-        </header>
+        </AppBar>
     );
 }
 

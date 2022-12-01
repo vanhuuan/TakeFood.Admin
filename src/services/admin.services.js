@@ -3,7 +3,7 @@ import axios from 'axios'
 export const adminServices = {
     getAdminPaging: async (pageNumber, pageSize, queryType, queryString, sortBy, sortType, token) => {
         return await axios.get(
-            `https://takefoodauthentication.azurewebsites.net/GetPagingAdmin?PageNumber=${pageNumber}&PageSize=${pageSize}&QueryType=${queryType}&QueryString=${queryString}&SortBy=${sortBy}&SortType=${sortType}`, 
+            `https://takefoodapigatewayadmin.azurewebsites.net/GetPagingAdmin?PageNumber=${pageNumber}&PageSize=${pageSize}&QueryType=${queryType}&QueryString=${queryString}&SortBy=${sortBy}&SortType=${sortType}`,
             {
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -11,9 +11,9 @@ export const adminServices = {
             }
         )
     },
-    makeAdmin: async ( adminEmail, token) => {
+    makeAdmin: async (adminEmail, token) => {
         return await axios.put(
-            `https://takefoodauthentication.azurewebsites.net/MakeAdmin?userEmail=${adminEmail}`, null,
+            `https://takefoodapigatewayadmin.azurewebsites.net/MakeAdmin?userEmail=${adminEmail}`, null,
             {
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -21,9 +21,9 @@ export const adminServices = {
             }
         )
     },
-    removeAdmin: async ( adminId, token) => {
+    removeAdmin: async (adminId, token) => {
         return await axios.delete(
-            `https://takefoodauthentication.azurewebsites.net/RemoveAdmin?userId=${adminId}`,
+            `https://takefoodapigatewayadmin.azurewebsites.net/RemoveAdmin?userId=${adminId}`,
             {
                 headers: {
                     "Authorization": `Bearer ${token}`

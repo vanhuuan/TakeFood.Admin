@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Box } from '@mui/material';
+import { Box, InputAdornment, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useEffect, useState } from 'react';
@@ -35,7 +35,7 @@ const Users = () => {
     const onChangeStatusClick = async (e, row) => {
         e.stopPropagation();
         var token = localStorage.getItem("AccessToken")
-        if(window.confirm(`Bạn có chắc muốn đổi trạng thái người dùng ${row.name}`)){
+        if (window.confirm(`Bạn có chắc muốn đổi trạng thái người dùng ${row.name}`)) {
             await userServices.changeUserState(row.userId, token)
             fetchData()
         }
@@ -44,7 +44,7 @@ const Users = () => {
     const onDeleteClick = async (e, row) => {
         e.stopPropagation();
         var token = localStorage.getItem("AccessToken")
-        if(window.confirm(`Bạn có chắc muốn xóa người dùng ${row.name}`)){
+        if (window.confirm(`Bạn có chắc muốn xóa người dùng ${row.name}`)) {
             await userServices.deleteUsser(row.userId, token)
             fetchData()
         }
@@ -151,68 +151,77 @@ const Users = () => {
     return (
         <div>
             <Box>
-                <Grid container spacing={2}>
-                    <Grid item xs={6} md={8}>
-                        <Card>
-                            <Paper
-                                component="form"
-                                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-                            >
-                                <InputBase
-                                    sx={{ ml: 1, flex: 1 }}
-                                    placeholder="Text to search"
-                                    inputProps={{ 'aria-label': 'Text To Search' }}
-                                    value={queryString}
-                                    onChange={e => { setQueryString(e.target.value) }}
-                                />
-                                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                                <Select
-                                    labelId="demo-simple-select-required-label"
-                                    id="demo-simple-select-required"
-                                    value={queryType}
-                                    label="Search feld"
-                                    onChange={e => { setQueryType(e.target.value) }}
-                                >
-                                    <MenuItem value={"All"}>Tất cả</MenuItem>
-                                    <MenuItem value={"Name"}>Tên</MenuItem>
-                                    <MenuItem value={"Email"}>Email</MenuItem>
-                                    <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
-                                </Select>
-                            </Paper>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={6} md={4}>
-                        <Card>
-                            <Select
-                                labelId="demo-simple-select-required-label"
-                                id="demo-simple-select-required"
-                                value={sortBy}
-                                label="Sort field"
-                                onChange={e => { setSortBy(e.target.value) }}
-                            >
-                                <MenuItem value={"Name"}>Tên</MenuItem>
-                                <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
-                                <MenuItem value={"Email"}>Email</MenuItem>
-                            </Select>
-                            <Select
-                                labelId="demo-simple-select-required-label"
-                                id="demo-simple-select-required"
-                                value={sortType}
-                                label="Sort type"
-                                onChange={e => { setSortType(e.target.value); }}
-                            >
-                                <MenuItem value={"Asc"}>Tăng dần</MenuItem>
-                                <MenuItem value={"Desc"}>Giảm dần</MenuItem>
-                            </Select>
-                            <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={fetchData}>
-                                <SearchIcon />
-                            </IconButton>
-                        </Card>
-                    </Grid>
-                </Grid>
+                <Paper
+                    component="form"
+                    className="search-container"
+                >
+                    <Box>
+                        <Typography sx={{ ml: 2, mb: 1 }}>Lọc theo: </Typography>
+                        <Select
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={queryType}
+                            label="Search feld"
+                            onChange={e => { setQueryType(e.target.value) }}
+                            className='option'
+                            size="small"
+                        >
+                            <MenuItem value={"All"}>Tất cả</MenuItem>
+                            <MenuItem value={"Name"}>Tên</MenuItem>
+                            <MenuItem value={"Email"}>Email</MenuItem>
+                            <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
+                        </Select>
+                        <TextField
+                            placeholder="Text to search"
+                            inputProps={{ 'aria-label': 'Text To Search' }}
+                            value={queryString}
+                            onChange={e => { setQueryString(e.target.value) }}
+                            variant='outlined'
+                            size='small'
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position='end'>
+                                        <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={fetchData}>
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                            sx={{ ml: 2 }}
+                        />
+                    </Box>
+                    <Box>
+                        <Typography sx={{ ml: 2, mb: 1 }}>Sắp xếp theo: </Typography>
+                        <Select
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={sortBy}
+                            label="Sort field"
+                            onChange={e => { setSortBy(e.target.value) }}
+                            className='option'
+                            size="small"
+                        >
+                            <MenuItem value={"Name"}>Tên</MenuItem>
+                            <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
+                            <MenuItem value={"Email"}>Email</MenuItem>
+                        </Select>
+                        <Select
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={sortType}
+                            label="Sort type"
+                            onChange={e => { setSortType(e.target.value); }}
+                            className='option'
+                            size="small"
+                        >
+                            <MenuItem value={"Asc"}>Tăng dần</MenuItem>
+                            <MenuItem value={"Desc"}>Giảm dần</MenuItem>
+                        </Select>
+                    </Box>
+                </Paper>
             </Box>
             <Box>
-                <div style={{ height: 400, width: '100%' }}>
+                <div className='table-container'>
                     <DataGrid
                         autoHeight
                         rows={pageState.data}

@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, InputAdornment, Stack, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useEffect, useState } from 'react';
@@ -35,7 +35,7 @@ const Admins = () => {
 
     const onMakeAdminClick = (event) => {
         const enteredName = prompt('Please enter the admin\'s email')
-        if(enteredName){
+        if (enteredName) {
             adminServices.makeAdmin(enteredName, token)
             fetchData()
         }
@@ -124,7 +124,86 @@ const Admins = () => {
     }, [pageState.page, pageState.pageSize])
     return (
         <div>
-            <Box>
+            <Stack>
+                <Button variant="contained" size="large"
+                    onClick={onMakeAdminClick}
+                    sx={{
+                        backgroundColor: theme.palette.primary.main,
+                        width: 'fit-content',
+                        marginBottom: 2,
+                        alignSelf: 'end'
+                    }}
+                >Thêm Admin</Button>
+                <Paper
+                    component="form"
+                    className="search-container"
+                >
+                    <Box>
+                        <Typography sx={{ ml: 2, mb: 1 }}>Lọc theo: </Typography>
+                        <Select
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={queryType}
+                            label="Search feld"
+                            onChange={e => { setQueryType(e.target.value) }}
+                            className='option'
+                            size="small"
+                        >
+                            <MenuItem value={"All"}>Tất cả</MenuItem>
+                            <MenuItem value={"Name"}>Tên</MenuItem>
+                            <MenuItem value={"Email"}>Email</MenuItem>
+                            <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
+                        </Select>
+                        <TextField
+                            placeholder="Text to search"
+                            inputProps={{ 'aria-label': 'Text To Search' }}
+                            value={queryString}
+                            onChange={e => { setQueryString(e.target.value) }}
+                            variant='outlined'
+                            size='small'
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position='end'>
+                                        <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={fetchData}>
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                            sx={{ ml: 2 }}
+                        />
+                    </Box>
+                    <Box>
+                        <Typography sx={{ ml: 2, mb: 1 }}>Sắp xếp theo: </Typography>
+                        <Select
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={sortBy}
+                            label="Sort field"
+                            onChange={e => { setSortBy(e.target.value) }}
+                            className='option'
+                            size="small"
+                        >
+                            <MenuItem value={"Name"}>Tên</MenuItem>
+                            <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
+                            <MenuItem value={"Email"}>Email</MenuItem>
+                        </Select>
+                        <Select
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={sortType}
+                            label="Sort type"
+                            onChange={e => { setSortType(e.target.value); }}
+                            className='option'
+                            size="small"
+                        >
+                            <MenuItem value={"Asc"}>Tăng dần</MenuItem>
+                            <MenuItem value={"Desc"}>Giảm dần</MenuItem>
+                        </Select>
+                    </Box>
+                </Paper>
+            </Stack>
+            {/* <Box>
                 <Grid container spacing={2}>
                     <Grid item xs={6} md={8}>
                         <Card>
@@ -181,19 +260,13 @@ const Admins = () => {
                             <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={fetchData}>
                                 <SearchIcon />
                             </IconButton>
-                            <Button variant="contained" size="large"
-                                onClick={onMakeAdminClick}
-                                sx={{
-                                    backgroundColor: theme.palette.primary.main,
-                                    width: 'fit-content'
-                                }}
-                            >Thêm Admin</Button>
+
                         </Card>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box> */}
             <Box>
-                <div style={{ height: 400, width: '100%' }}>
+                <div className='table-container'>
                     <DataGrid
                         autoHeight
                         rows={pageState.data}

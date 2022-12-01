@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, InputAdornment, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
@@ -56,8 +56,8 @@ const Stores = () => {
                     <div>
                         <span>
                             <IconButton sx={{ color: blue }}
-                            onClick={(e) => onDetailClick(e, params.row)}
-                            variant="contained">
+                                onClick={(e) => onDetailClick(e, params.row)}
+                                variant="contained">
                                 <RemoveRedEye>
                                 </RemoveRedEye>
                             </IconButton>
@@ -124,6 +124,75 @@ const Stores = () => {
     return (
         <div>
             <Box>
+                <Paper
+                    component="form"
+                    className="search-container"
+                >
+                    <Box>
+                        <Typography sx={{ ml: 2, mb: 1 }}>Lọc theo: </Typography>
+                        <Select
+                            className='option'
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={queryType}
+                            label="Search feld"
+                            size='small'
+                            onChange={e => { setQueryType(e.target.value) }}
+                        >
+                            <MenuItem value={"All"}>Tất cả</MenuItem>
+                            <MenuItem value={"Name"}>Tên cửa hàng</MenuItem>
+                            <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
+                        </Select>
+                        <TextField
+                            placeholder="Text to search"
+                            inputProps={{ 'aria-label': 'Text To Search' }}
+                            value={queryString}
+                            onChange={e => { setQueryString(e.target.value) }}
+                            variant='outlined'
+                            size='small'
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position='end'>
+                                        <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={fetchData}>
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                            sx={{ ml: 2 }}
+                        />
+                    </Box>
+                    <Box>
+                        <Typography sx={{ ml: 2, mb: 1 }}>Sắp xếp theo: </Typography>
+                        <Select
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={sortBy}
+                            label="Sort field"
+                            onChange={e => { setSortBy(e.target.value) }}
+                            className='option'
+                            size="small"
+                        >
+                            <MenuItem value={"Name"}>Tên cửa hàng</MenuItem>
+                            <MenuItem value={"OwnerName"}>Tên chủ cửa hàng</MenuItem>
+                            <MenuItem value={"PhoneNumber"}>Số điện thoại</MenuItem>
+                        </Select>
+                        <Select
+                            labelId="demo-simple-select-required-label"
+                            id="demo-simple-select-required"
+                            value={sortType}
+                            label="Sort type"
+                            onChange={e => { setSortType(e.target.value); }}
+                            className='option'
+                            size="small"
+                        >
+                            <MenuItem value={"Asc"}>Tăng dần</MenuItem>
+                            <MenuItem value={"Desc"}>Giảm dần</MenuItem>
+                        </Select>
+                    </Box>
+                </Paper>
+            </Box>
+            {/* <Box>
                 <Grid container spacing={2}>
                     <Grid item xs={6} md={8}>
                         <Card>
@@ -182,9 +251,9 @@ const Stores = () => {
                         </Card>
                     </Grid>
                 </Grid>
-            </Box>
+            </Box> */}
             <Box>
-                <div style={{ height: 400, width: '100%' }}>
+                <div className='table-container'>
                     <DataGrid
                         autoHeight
                         rows={pageState.data}

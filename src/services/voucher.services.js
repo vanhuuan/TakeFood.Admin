@@ -4,7 +4,7 @@ export const voucherServices = {
     getSystemVoucherPaging: async (pageNumber, pageSize, queryType, queryString, sortBy, sortType, startDay, endDay, token) => {
         console.log(`https://takefoodvoucherservice.azurewebsites.net/GetPagingSystemVoucher?PageNumber=${pageNumber}&PageSize=${pageSize}&QueryType=${queryType}&QueryString=${queryString}&SortBy=${sortBy}&SortType=${sortType}&StartDate=${startDay}&EndDate=${endDay}`)
         return await axios.get(
-            `https://takefoodvoucherservice.azurewebsites.net/GetPagingSystemVoucher?PageNumber=${pageNumber}&PageSize=${pageSize}&QueryType=${queryType}&QueryString=${queryString}&SortBy=${sortBy}&SortType=${sortType}&StartDate=${startDay}&EndDate=${endDay}`, 
+            `https://takefoodapigatewayadmin.azurewebsites.net/GetPagingSystemVoucher?PageNumber=${pageNumber}&PageSize=${pageSize}&QueryType=${queryType}&QueryString=${queryString}&SortBy=${sortBy}&SortType=${sortType}&StartDate=${startDay}&EndDate=${endDay}`,
             {
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -14,7 +14,7 @@ export const voucherServices = {
     },
     createVoucher: async (data, token) => {
         return await axios.post(
-            `https://takefoodvoucherservice.azurewebsites.net/AddSystemVoucher`,
+            `https://takefoodapigatewayadmin.azurewebsites.net/ddSystemVoucher`,
             data,
             {
                 headers: {
@@ -25,7 +25,7 @@ export const voucherServices = {
     },
     getVoucherById: async (id, token) => {
         return await axios.get(
-            `https://takefoodvoucherservice.azurewebsites.net/GetVoucherByID?ID=${id}`,
+            `https://takefoodapigatewayadmin.azurewebsites.net/GetVoucherByID?ID=${id}`,
             {
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -35,7 +35,7 @@ export const voucherServices = {
     },
     updateVoucher: async (data, token) => {
         return await axios.put(
-            `https://takefoodvoucherservice.azurewebsites.net/UpdateSystemVoucher`,
+            `https://takefoodapigatewayadmin.azurewebsites.net/UpdateSystemVoucher`,
             data,
             {
                 headers: {
@@ -46,7 +46,7 @@ export const voucherServices = {
     },
     deleteVoucher: async (id, token) => {
         return await axios.delete(
-            `https://takefoodvoucherservice.azurewebsites.net/DeleteSystemVoucher?id=${id}`,
+            `https://takefoodapigatewayadmin.azurewebsites.net/DeleteSystemVoucher?id=${id}`,
             {
                 headers: {
                     "Authorization": `Bearer ${token}`
