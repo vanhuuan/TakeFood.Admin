@@ -35,7 +35,7 @@ const Sidebar = () => {
     >
       <Toolbar />
       <List component={'nav'}>
-        <ListItemButton>
+        <ListItemButton component={NavLink} to='/dashboard'>
           <ListItemIcon>
             <Info sx={{ color: iconColor }} />
           </ListItemIcon>
@@ -43,7 +43,7 @@ const Sidebar = () => {
             isActive ? activeStyle : undefined
           }>Dashboard</NavLink>
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton component={NavLink} to='/users'>
           <ListItemIcon>
             <Person sx={{ color: iconColor }} />
           </ListItemIcon>
@@ -51,7 +51,7 @@ const Sidebar = () => {
             isActive ? activeStyle : undefined
           }>User</NavLink>
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton component={NavLink} to='/stores'>
           <ListItemIcon>
             <Store sx={{ color: iconColor }} />
           </ListItemIcon>
@@ -59,7 +59,7 @@ const Sidebar = () => {
             isActive ? activeStyle : undefined
           }>Cửa hàng</NavLink>
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton component={NavLink} to='/admins'>
           <ListItemIcon>
             <AdminPanelSettings sx={{ color: iconColor }} />
           </ListItemIcon>
@@ -67,7 +67,7 @@ const Sidebar = () => {
             isActive ? activeStyle : undefined
           }>Admin</NavLink>
         </ListItemButton>
-        <ListItemButton>
+        <ListItemButton component={NavLink} to='/vouchers'>
           <ListItemIcon>
             <Discount sx={{ color: iconColor }} />
           </ListItemIcon>
