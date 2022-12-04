@@ -132,9 +132,9 @@ const UserOrders = (props) => {
             }
         },
         {
-            field: 'orderDate', headerName: 'Ngày đặt hàng', width: 100, sortable: false,
+            field: 'orderDate', headerName: 'Ngày đặt hàng', width: 200, sortable: false,
             renderCell: (params) => {
-                return <Typography>
+                return <Typography style={{width: 200}}>
                     {
                         new Intl.DateTimeFormat('vi-VN', {
                             hour: 'numeric',

@@ -51,13 +51,47 @@ const Vouchers = () => {
         { field: 'stt', headerName: 'STT', width: 50, sortable: false },
         { field: 'name', headerName: 'Voucher', width: 150, sortable: false },
         { field: 'description', headerName: 'Mô tả', width: 200, sortable: false },
-        { field: 'minSpend', headerName: 'Min spend', width: 100, sortable: false },
+        {
+            field: 'minSpend', headerName: 'Min spend', width: 100, sortable: false,
+            renderCell: (params) => {
+                return <Typography>
+                    {
+                        new Intl.DateTimeFormat('vi-VN', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: false,
+                            month: 'numeric',
+                            day: 'numeric',
+                            weekday: 'long',
+                            year: 'numeric',
+                            timeZone: 'Asia/Ho_Chi_Minh',
+                        }).format(Date.parse(params.row.minSpend))
+                    }
+                </Typography>
+            }
+        },
         { field: 'maxDiscount', headerName: 'Max discount', width: 100, sortable: false },
         {
             field: 'amount',
             headerName: 'Mức giảm',
             width: 110,
             sortable: false,
+            renderCell: (params) => {
+                return <Typography>
+                    {
+                        new Intl.DateTimeFormat('vi-VN', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: false,
+                            month: 'numeric',
+                            day: 'numeric',
+                            weekday: 'long',
+                            year: 'numeric',
+                            timeZone: 'Asia/Ho_Chi_Minh',
+                        }).format(Date.parse(params.row.maxDiscount))
+                    }
+                </Typography>
+            }
         },
         { field: 'code', headerName: 'Mã', width: 100, sortable: false },
         {
