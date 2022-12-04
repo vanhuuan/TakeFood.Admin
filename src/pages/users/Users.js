@@ -36,7 +36,7 @@ const Users = () => {
         e.stopPropagation();
         var token = localStorage.getItem("AccessToken")
         if (window.confirm(`Bạn có chắc muốn đổi trạng thái người dùng ${row.name}`)) {
-            await userServices.changeUserState(row.userId, token)
+            await userServices.changeUserState(row.userId)
             fetchData()
         }
     };
@@ -45,7 +45,7 @@ const Users = () => {
         e.stopPropagation();
         var token = localStorage.getItem("AccessToken")
         if (window.confirm(`Bạn có chắc muốn xóa người dùng ${row.name}`)) {
-            await userServices.deleteUsser(row.userId, token)
+            await userServices.deleteUsser(row.userId)
             fetchData()
         }
     };
@@ -127,12 +127,11 @@ const Users = () => {
             setQueryString("All");
         }
         if (queryType.toString() == "All") {
-            response = await await userServices.getUserPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType, token)
+            response = await await userServices.getUserPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType)
         } else if (queryString) {
-            response = await await userServices.getUserPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType, token)
+            response = await await userServices.getUserPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType)
             if (response.data) {
                 const json = response.data
-                console.log(json)
                 setPageState(old => ({ ...old, isLoading: false, data: json.cards, total: json.total }))
             }
         } else {

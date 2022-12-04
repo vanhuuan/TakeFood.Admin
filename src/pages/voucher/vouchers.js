@@ -38,7 +38,7 @@ const Vouchers = () => {
     const onDeleteVoucherClick = (e, row) => {
         e.stopPropagation();
         if (window.confirm(`Bạn có chắc muốn xóa voucher ${row.name} không`)) {
-            voucherServices.deleteVoucher(row.voucherId, token)
+            voucherServices.deleteVoucher(row.voucherId)
             fetchData()
         }
     };
@@ -60,8 +60,44 @@ const Vouchers = () => {
             sortable: false,
         },
         { field: 'code', headerName: 'Mã', width: 100, sortable: false },
-        { field: 'startDate', headerName: 'Ngày áp dụng', width: 200, sortable: false },
-        { field: 'endDate', headerName: 'Ngày hết hạn', width: 200, sortable: false },
+        {
+            field: 'startDate', headerName: 'Ngày áp dụng', width: 200, sortable: false,
+            renderCell: (params) => {
+                return <Typography>
+                    {
+                        new Intl.DateTimeFormat('vi-VN', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: false,
+                            month: 'numeric',
+                            day: 'numeric',
+                            weekday: 'long',
+                            year: 'numeric',
+                            timeZone: 'Asia/Ho_Chi_Minh',
+                        }).format(Date.parse(params.row.startDate))
+                    }
+                </Typography>
+            }
+        },
+        {
+            field: 'endDate', headerName: 'Ngày hết hạn', width: 200, sortable: false,
+            renderCell: (params) => {
+                return <Typography>
+                    {
+                        new Intl.DateTimeFormat('vi-VN', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: false,
+                            month: 'numeric',
+                            day: 'numeric',
+                            weekday: 'long',
+                            year: 'numeric',
+                            timeZone: 'Asia/Ho_Chi_Minh',
+                        }).format(Date.parse(params.row.endDate))
+                    }
+                </Typography>
+            }
+        },
         {
             field: 'Action',
             headerName: 'Action',
@@ -124,9 +160,9 @@ const Vouchers = () => {
             setQueryString("All");
         }
         if (queryType.toString() == "All") {
-            response = await voucherServices.getSystemVoucherPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType, startDay.toISOString(), endDay.toISOString(), token)
+            response = await voucherServices.getSystemVoucherPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType, startDay.toISOString(), endDay.toISOString())
         } else if (queryString) {
-            response = await voucherServices.getSystemVoucherPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType, startDay.toISOString(), endDay.toISOString(), token)
+            response = await voucherServices.getSystemVoucherPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType, startDay.toISOString(), endDay.toISOString())
             if (response.data) {
                 const json = response.data
                 console.log(json)

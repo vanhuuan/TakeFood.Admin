@@ -22,7 +22,7 @@ const UpdateVoucher = () => {
 
   const getVoucherById = async () => {
     try {
-      const voucher = await voucherServices.getVoucherById(id, token)
+      const voucher = await voucherServices.getVoucherById(id)
       if (voucher.data) {
         setVoucherInfo(voucher.data)
         setStartDay(voucher.data.startDay)
@@ -57,7 +57,7 @@ const UpdateVoucher = () => {
     }
     console.log("info", info)
     try {
-      const response = await voucherServices.updateVoucher(info, token)
+      const response = await voucherServices.updateVoucher(info)
       if (response) {
         navigate("/vouchers")
       }

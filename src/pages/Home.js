@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   NavLink,
   Link,
@@ -7,15 +7,15 @@ import {
 
 const Home = () => {
   let navigate = useNavigate()
-  // const [isLogin, setIsLogin] = useState(false)
-  let isLogin = false
-  const userName = localStorage.getItem("Name")
-  // const token = localStorage.getItem("AccessToken")
-
-  if (userName) {
-    isLogin = true
-    navigate("/dashboard")
-  }
+  useEffect(() => {
+    const userName = localStorage.getItem("Name")
+    if (userName) {
+      navigate("/dashboard")
+    }else{
+      navigate("/login")
+    }
+  })
+  
   return (
     <div>
       <h1>Home</h1>

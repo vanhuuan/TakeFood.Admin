@@ -21,8 +21,8 @@ const StoreDetail = () => {
     const { state } = useLocation();
     const { id } = state;
 
-    const getStoreDetails = async (stoerId, token) => {
-        const storeDetails = await storeServices.getStoreDetail(stoerId, token)
+    const getStoreDetails = async (stoerId) => {
+        const storeDetails = await storeServices.getStoreDetail(stoerId)
         if (storeDetails.data) {
             setDetails(storeDetails.data)
             console.log(storeDetails.data)
@@ -31,19 +31,19 @@ const StoreDetail = () => {
     }
     useEffect(() => {
         setLoading(false);
-        getStoreDetails(id, token)
+        getStoreDetails(id)
     }, [])
 
     const handleActive = () => {
         if (window.confirm(`Bạn có chắc muốn kích hoạt cửa hàng ${details.name}`)) {
-            storeServices.activeStore(id, token)
+            storeServices.activeStore(id)
             window.location.reload();
         }
     };
 
     const handleDeActive = () => {
         if (window.confirm(`Bạn có chắc muốn hủy kích hoạt cửa hàng ${details.name}`)) {
-            storeServices.deactiveStore(id, token)
+            storeServices.deactiveStore(id)
             window.location.reload();
         }
     };

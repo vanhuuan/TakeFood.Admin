@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
-import { Box, Slider } from '@mui/material';
+import { Box, Slider, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useEffect, useState } from 'react';
@@ -122,8 +122,34 @@ const UserOrders = (props) => {
             headerName: 'Thành tiền',
             width: 110,
             sortable: false,
+            renderCell: (params) => {
+                return <Typography>
+                    {
+                        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                            .format(params.row.total)
+                    }
+                </Typography>
+            }
         },
-        { field: 'orderDate', headerName: 'Ngày đặt hàng', width: 100, sortable: false },
+        {
+            field: 'orderDate', headerName: 'Ngày đặt hàng', width: 100, sortable: false,
+            renderCell: (params) => {
+                return <Typography>
+                    {
+                        new Intl.DateTimeFormat('vi-VN', {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: false,
+                            month: 'numeric',
+                            day: 'numeric',
+                            weekday: 'long',
+                            year: 'numeric',
+                            timeZone: 'Asia/Ho_Chi_Minh',
+                        }).format(Date.parse(params.row.orderDate))
+                    }
+                </Typography>
+            }
+        },
         { field: 'state', headerName: 'Trạng thái', width: 120, sortable: false },
         {
             field: 'Đơn hàng',
@@ -176,7 +202,7 @@ const UserOrders = (props) => {
 
     const fetchData = async () => {
         setPageState(old => ({ ...old, isLoading: true }))
-        var response = await userServices.getUserOrderPaging(pageState.page, pageState.pageSize, value[0], value[1] * 1000, stateType, startDay.toISOString(), endDay.toISOString(), sortBy, sortType, id, token);
+        var response = await userServices.getUserOrderPaging(pageState.page, pageState.pageSize, value[0], value[1] * 1000, stateType, startDay.toISOString(), endDay.toISOString(), sortBy, sortType, id);
         if (response.data) {
             const json = response.data
             console.log(json)

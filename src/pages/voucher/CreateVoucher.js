@@ -29,7 +29,7 @@ const CreateVoucher = () => {
             StoreId: "000"
         }
         try {
-            const createVoucher = await voucherServices.createVoucher(info, token)
+            const createVoucher = await voucherServices.createVoucher(info)
             navigate("/vouchers")
         } catch (error) {
             console.log(error)

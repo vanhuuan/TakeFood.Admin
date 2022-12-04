@@ -1,5 +1,5 @@
 import { PersonPinCircleOutlined } from '@mui/icons-material';
-import { Card, Typography } from '@mui/material';
+import { Card, Typography, CircularProgress } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
@@ -30,16 +30,18 @@ const Dashboard = () => {
     const [turnover, setTurnover] = useState(0)
     const [newUser, setNewUser] = useState()
     const [isLoading, setLoading] = useState(true)
-
+    
     const fetchStatic = async () => {
-        const newUsers = await userServices.getNewUsser(token)
+        const newUsers = await userServices.getNewUsser()
         if (newUsers.data) {
-            console.log(newUsers.data)
-            setLoading(false)
             setNewUser(newUsers.data)
         }
-        setTurnover(10000);
-        setChartData(null);
+        const chartsData = await userServices.getRevenue(2022)
+        if(chartsData.data){
+            setChartData(chartsData.data);
+            setTurnover(chartsData.data[11].revenue);        
+        } 
+        setLoading(false)
     };
 
     useEffect(() => {
@@ -52,12 +54,12 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                     <Item>
                         <Typography variant='h6'>Doang thu tháng này</Typography>
-                        <Typography variant='h5' sx={{ marginY: 2, fontWeight: 'bold' }}>1000</Typography>
+                        <Typography variant='h5' sx={{ marginY: 2, fontWeight: 'bold' }}>{turnover}</Typography>
                     </Item>
                 </Grid>
                 {isLoading ? <></> :
                     <Grid item xs={8}>
-                        <Income chartData={chartData} />
+                        {isLoading?<CircularProgress sx={{ alignSelf: 'center' }} />:<Income chartsData={chartData}/>}
                     </Grid>
                 }
                 {isLoading ? <></> :
@@ -77,15 +79,6 @@ const Dashboard = () => {
                                 ))}
 
                             </List>
-                            <Link
-                                component="button"
-                                variant="body2"
-                                onClick={() => {
-                                    navigate("/user")
-                                }}
-                            >
-                                Xem tất cả
-                            </Link>
                         </Card>
                     </Grid>
                 }

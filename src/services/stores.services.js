@@ -1,31 +1,22 @@
-import axios from 'axios'
+import api from "./api"; 
 
+const baseUrl = "https://takefoodapigatewayadmin.azurewebsites.net";
 export const storeServices = {
-    createStore: async (data, id, token) => {
-        return await axios.post(
-            `https://takefoodapigatewayadmin.azurewebsites.net/CreateStore?OwnerID=${id}`,
-            data,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+    createStore: async (data, id) => {
+        return await api.post(
+            `${baseUrl}/CreateStore?OwnerID=${id}`,
+            data
         )
     },
 
-    getStore: async (id, token) => {
-        return await axios.get(
-            `https://takefoodapigatewayadmin.azurewebsites.net/GetStoreByOwner?ownerID=${id}`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+    getStore: async (id) => {
+        return await api.get(
+            `${baseUrl}/GetStoreByOwner?ownerID=${id}`
         )
     },
     getCategories: async () => {
-        return await axios.get(
-            'https://takefoodapigatewayadmin.azurewebsites.net/api/Category/GetStoreCategory',
+        return await api.get(
+            `${baseUrl}/api/Category/GetStoreCategory`,
             {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
@@ -33,64 +24,34 @@ export const storeServices = {
                 }
             })
     },
-    getFood: async (id, token) => {
-        return await axios.get(
-            `https://takefoodapigatewayadmin.azurewebsites.net/api/Food/GetAllFoodByStore?StoreID=${id}`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+    getFood: async (id) => {
+        return await api.get(
+            `${baseUrl}/api/Food/GetAllFoodByStore?StoreID=${id}`
         )
     },
-    getTopping: async (id, token) => {
-        return await axios.get(
-            `https://takefoodapigatewayadmin.azurewebsites.net/GetAllTopping/${id}`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+    getTopping: async (id) => {
+        return await api.get(
+            `${baseUrl}/GetAllTopping/${id}`
         )
     },
-    getStorePaging: async (pageNumber, pageSize, queryType, queryString, sortBy, sortType, token) => {
-        return await axios.get(
-            `https://takefoodapigatewayadmin.azurewebsites.net/GetPagingStore?PageNumber=${pageNumber}&PageSize=${pageSize}&QueryType=${queryType}&QueryString=${queryString}&SortBy=${sortBy}&SortType=${sortType}`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+    getStorePaging: async (pageNumber, pageSize, queryType, queryString, sortBy, sortType) => {
+        return await api.get(
+            `${baseUrl}/GetPagingStore?PageNumber=${pageNumber}&PageSize=${pageSize}&QueryType=${queryType}&QueryString=${queryString}&SortBy=${sortBy}&SortType=${sortType}`
         )
     },
     getStoreDetail: async (storeId, token) => {
-        return await axios.get(
-            `https://takefoodapigatewayadmin.azurewebsites.net/GetRegisterDetailStore?storeId=${storeId}`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+        return await api.get(
+            `${baseUrl}/GetRegisterDetailStore?storeId=${storeId}`
         )
     },
-    activeStore: async (storeId, token) => {
-        return await axios.put(
-            `https://takefoodapigatewayadmin.azurewebsites.net/ActiveStore?storeId=${storeId}`, null,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+    activeStore: async (storeId) => {
+        return await api.put(
+            `${baseUrl}/ActiveStore?storeId=${storeId}`, null
         )
     },
-    deactiveStore: async (storeId, token) => {
-        return await axios.put(
-            `https://takefoodapigatewayadmin.azurewebsites.net/DeActiveStore?storeId=${storeId}`, null,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
+    deactiveStore: async (storeId) => {
+        return await api.put(
+            `${baseUrl}/DeActiveStore?storeId=${storeId}`, null
         )
     },
 }

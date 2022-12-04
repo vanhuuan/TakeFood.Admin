@@ -22,7 +22,7 @@ const OrderDetail = () => {
 
     const getOrderDetail = async (orderId, token) => {
         try {
-            const orderDetail = await orderService.getOrderDetail(orderId, token)
+            const orderDetail = await orderService.getOrderDetail(orderId)
             if (orderDetail.data) {
                 setDetail(orderDetail.data)
                 console.log(orderDetail.data)
@@ -124,9 +124,11 @@ const OrderDetail = () => {
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                     <TableCell align="center">{++i}</TableCell>
                                                     <TableCell align="center">{s.foodName}</TableCell>
-                                                    <TableCell align="center">{s.total / s.quantity}</TableCell>
+                                                    <TableCell align="center">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                                                                .format(s.total / s.quantity)}</TableCell>
                                                     <TableCell align="center">{s.quantity}</TableCell>
-                                                    <TableCell align="center">{s.total}</TableCell>
+                                                    <TableCell align="center">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                                                                .format(s.total)}</TableCell>
                                                 </TableRow>
                                                 {s.toppings.map((topping) => (
                                                     <TableRow sx={{ fontSize: 'smaller' }}>

@@ -44,6 +44,7 @@ const Login = () => {
           console.log("Login data: ", login.data)
           localStorage.setItem("UserId", login.data.id)
           localStorage.setItem("AccessToken", login.data.accessToken)
+          localStorage.setItem("RefreshToken", login.data.refreshToken)
           localStorage.setItem("Name", login.data.name)
           localStorage.setItem("Roles", login.data.roles)
           var role = localStorage.getItem("Roles")

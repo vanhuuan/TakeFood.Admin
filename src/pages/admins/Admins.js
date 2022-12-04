@@ -28,7 +28,7 @@ const Admins = () => {
     const onRemoveAdminClick = (e, row) => {
         e.stopPropagation();
         if (window.confirm(`Bạn có chắc muốn loại ${row.name} khỏi admin`)) {
-            adminServices.removeAdmin(row.userId, token)
+            adminServices.removeAdmin(row.userId)
             fetchData()
         }
     };
@@ -36,7 +36,7 @@ const Admins = () => {
     const onMakeAdminClick = (event) => {
         const enteredName = prompt('Please enter the admin\'s email')
         if (enteredName) {
-            adminServices.makeAdmin(enteredName, token)
+            adminServices.makeAdmin(enteredName)
             fetchData()
         }
     }
@@ -92,7 +92,6 @@ const Admins = () => {
     const [queryType, setQueryType] = useState("All")
     const [sortType, setSortType] = useState("Asc")
     const [sortBy, setSortBy] = useState("Name")
-    const token = localStorage.getItem("AccessToken")
 
     const fetchData = async () => {
         setPageState(old => ({ ...old, isLoading: true }))
@@ -101,9 +100,9 @@ const Admins = () => {
             setQueryString("All");
         }
         if (queryType.toString() == "All") {
-            response = await await adminServices.getAdminPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType, token)
+            response = await await adminServices.getAdminPaging(pageState.page, pageState.pageSize, queryType, "All", sortBy, sortType)
         } else if (queryString) {
-            response = await await adminServices.getAdminPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType, token)
+            response = await await adminServices.getAdminPaging(pageState.page, pageState.pageSize, queryType, queryString, sortBy, sortType)
             if (response.data) {
                 const json = response.data
                 console.log(json)
