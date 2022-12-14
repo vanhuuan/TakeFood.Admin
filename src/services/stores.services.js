@@ -1,6 +1,6 @@
 import api from "./api"; 
 
-const baseUrl = "https://takefoodapigatewayadmin.azurewebsites.net";
+const baseUrl = "https://takefood-apigateway-admin.azurewebsites.net";
 export const storeServices = {
     createStore: async (data, id) => {
         return await api.post(

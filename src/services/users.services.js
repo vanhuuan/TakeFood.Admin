@@ -1,5 +1,5 @@
 import api from './api'
-const baseUrl = "https://takefoodapigatewayadmin.azurewebsites.net";
+const baseUrl = "https://takefood-apigateway-admin.azurewebsites.net";
 export const userServices = {
     getUserPaging: async (pageNumber, pageSize, queryType, queryString, sortBy, sortType) => {
         return await api.get(
