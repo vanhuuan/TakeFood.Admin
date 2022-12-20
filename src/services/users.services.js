@@ -28,7 +28,7 @@ export const userServices = {
     },
     getRevenue: async (year) => {
         return await api.get(
-            `https://takefood-orderservice.azurewebsites.net/api/Revenue/RevenueOfSystemYear?year=${year}`
+            `${baseUrl}/api/Revenue/RevenueOfSystemYear?year=${year}`
         )
     },
 }

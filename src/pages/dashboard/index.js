@@ -54,7 +54,9 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                     <Item>
                         <Typography variant='h6'>Doang thu tháng này</Typography>
-                        <Typography variant='h5' sx={{ marginY: 2, fontWeight: 'bold' }}>{turnover}</Typography>
+                        <Typography variant='h5' sx={{ marginY: 2, fontWeight: 'bold' }}>
+                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                            .format(turnover)}</Typography>
                     </Item>
                 </Grid>
                 {isLoading ? <></> :

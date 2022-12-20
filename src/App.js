@@ -20,6 +20,8 @@ import OrderDetail from './pages/orders/OrderDetail';
 import StoreDetail from './pages/stores/StoreDetails';
 import CreateVoucher from './pages/voucher/CreateVoucher';
 import UpdateVoucher from './pages/voucher/UpdateVoucher';
+import PaymentSuccess from './pages/orders/PaymentSuccess';
+import PaymentFaild from './pages/orders/PaymentFailed';
 
 function App() {
   return (
@@ -38,7 +40,8 @@ function App() {
           <Route path='/storeDetail' element={<DefaultLayout><StoreDetail/></DefaultLayout>}></Route>
           <Route path='/createVoucher' element={<DefaultLayout><CreateVoucher/></DefaultLayout>}></Route>
           <Route path='/updateVoucher' element={<DefaultLayout><UpdateVoucher/></DefaultLayout>}></Route>
-          {/* <Route path='/store/food/updateFood/' element={<DefaultLayout><CreateFood/></DefaultLayout>}></Route> */}       
+          <Route path='/notifySuccess' element={<PaymentSuccess/>}></Route>
+          <Route path='/notifyFailed' element={<PaymentFaild/>}></Route>  
         </Routes>      
       </BrowserRouter>
       </>

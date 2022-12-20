@@ -56,21 +56,12 @@ const Vouchers = () => {
             renderCell: (params) => {
                 return <Typography>
                     {
-                        new Intl.DateTimeFormat('vi-VN', {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: false,
-                            month: 'numeric',
-                            day: 'numeric',
-                            weekday: 'long',
-                            year: 'numeric',
-                            timeZone: 'Asia/Ho_Chi_Minh',
-                        }).format(Date.parse(params.row.minSpend))
+                        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                        .format(params.row.minSpend)
                     }
                 </Typography>
             }
         },
-        { field: 'maxDiscount', headerName: 'Max discount', width: 100, sortable: false },
         {
             field: 'amount',
             headerName: 'Mức giảm',
@@ -78,17 +69,9 @@ const Vouchers = () => {
             sortable: false,
             renderCell: (params) => {
                 return <Typography>
-                    {
-                        new Intl.DateTimeFormat('vi-VN', {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: false,
-                            month: 'numeric',
-                            day: 'numeric',
-                            weekday: 'long',
-                            year: 'numeric',
-                            timeZone: 'Asia/Ho_Chi_Minh',
-                        }).format(Date.parse(params.row.maxDiscount))
+                    {       
+                        new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                        .format(params.row.maxDiscount)
                     }
                 </Typography>
             }
