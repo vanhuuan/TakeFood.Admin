@@ -22,27 +22,29 @@ import CreateVoucher from './pages/voucher/CreateVoucher';
 import UpdateVoucher from './pages/voucher/UpdateVoucher';
 import PaymentSuccess from './pages/orders/PaymentSuccess';
 import PaymentFaild from './pages/orders/PaymentFailed';
+import Statistics from './pages/stores/Statistics';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route exact="true" path="/" element={<><Header /><Home /></>}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path='/dashboard' element={<DefaultLayout><Dashboard /></DefaultLayout>}></Route>
-          <Route path='/users' element={<DefaultLayout><Users /></DefaultLayout>}></Route>
-          <Route path='/vouchers' element={<DefaultLayout><Vouchers /></DefaultLayout>}></Route>
-          <Route path='/admins' element={<DefaultLayout><Admins /></DefaultLayout>}></Route>
-          <Route path='/stores' element={<DefaultLayout><Stores /></DefaultLayout>}></Route>
-          <Route path='/userOrder' element={<DefaultLayout><UserOrders /></DefaultLayout>}></Route>
-          <Route path='/orderDetail' element={<DefaultLayout><OrderDetail /></DefaultLayout>}></Route>
-          <Route path='/storeDetail' element={<DefaultLayout><StoreDetail /></DefaultLayout>}></Route>
-          <Route path='/createVoucher' element={<DefaultLayout><CreateVoucher /></DefaultLayout>}></Route>
-          <Route path='/updateVoucher' element={<DefaultLayout><UpdateVoucher /></DefaultLayout>}></Route>
-          <Route path='/notifySuccess' element={<PaymentSuccess />}></Route>
-          <Route path='/notifyFailed' element={<PaymentFaild />}></Route>
-        </Routes>
+          <Route exact="true" path="/" element={<><Header/><Home /></>}></Route>      
+          <Route path="/login" element={<Login/>}></Route>
+          <Route path='/dashboard' element={<DefaultLayout><Dashboard/></DefaultLayout>}></Route>
+          <Route path='/users' element={<DefaultLayout><Users/></DefaultLayout>}></Route>
+          <Route path='/vouchers' element={<DefaultLayout><Vouchers/></DefaultLayout>}></Route>
+          <Route path='/admins' element={<DefaultLayout><Admins/></DefaultLayout>}></Route>
+          <Route path='/stores' element={<DefaultLayout><Stores/></DefaultLayout>}></Route>
+          <Route path='/userOrder' element={<DefaultLayout><UserOrders/></DefaultLayout>}></Route>
+          <Route path='/orderDetail' element={<DefaultLayout><OrderDetail/></DefaultLayout>}></Route>
+          <Route path='/storeDetail' element={<DefaultLayout><StoreDetail/></DefaultLayout>}></Route>
+          <Route path='/createVoucher' element={<DefaultLayout><CreateVoucher/></DefaultLayout>}></Route>
+          <Route path='/updateVoucher' element={<DefaultLayout><UpdateVoucher/></DefaultLayout>}></Route>
+          <Route path='/storeRevenue' element={<DefaultLayout><Statistics/></DefaultLayout>}></Route>
+          <Route path='/notifySuccess' element={<PaymentSuccess/>}></Route>
+          <Route path='/notifyFailed' element={<PaymentFaild/>}></Route>  
+        </Routes>      
       </BrowserRouter>
     </>
   );

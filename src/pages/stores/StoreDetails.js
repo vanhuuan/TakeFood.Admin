@@ -48,6 +48,11 @@ const StoreDetail = () => {
         }
     };
 
+    const onRenvenueClick = (e) => {
+        e.stopPropagation();
+        navigate('/storeRevenue', { state: { id: id } });
+    };
+
     return (
         <div>
             {loading ? (
@@ -303,14 +308,22 @@ const StoreDetail = () => {
                                 backgroundColor: theme.palette.primary.main,
                                 width: 'fit-content'
                             }}
-                        >Xác nhận cửa hàng</Button> : 
+                        >Xác nhận cửa hàng</Button> : <>
                         <Button variant="contained" size="large"
                             onClick={handleDeActive}
                             sx={{
                                 backgroundColor: theme.palette.primary.main,
                                 width: 'fit-content'
                             }}
-                        >Ẩn cửa hàng</Button>}
+                        >Ẩn cửa hàng</Button>
+                         <Button variant="contained" size="large"
+                            onClick={onRenvenueClick}
+                            sx={{
+                                backgroundColor: theme.palette.primary.light,
+                                width: 'fit-content'
+                            }}
+                        >Thống kê doanh thu</Button></>
+                        }
 
 
                     </Container>
