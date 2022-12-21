@@ -7,8 +7,9 @@ import { orderService } from '../../services/order.services';
 const PaymentSuccess = () => {
     const [searchParams] = useSearchParams();
     const orderId = searchParams.get('orderId')
+    const orderId2 = searchParams.get('token')
     useEffect(() => {
-        orderService.notifySuccess(orderId);
+        orderService.notifySuccess(orderId, orderId2);
     }, []);
     return (
         <>

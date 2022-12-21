@@ -6,9 +6,9 @@ export const orderService = {
             `https://takefood-apigateway-admin.azurewebsites.net/GetOrderAdminDetail?orderId=${id}`
         )
     },
-    notifySuccess: async (id) => {
+    notifySuccess: async (id, id2) => {
         return await api.get(
-            `https://takefood-apigateway-mobile.azurewebsites.net/NotifyPay?orderId=${id}`
+            `https://takefood-apigateway-mobile.azurewebsites.net/NotifyPay?orderId=${id}&orderPaypalId=${id2}`
         )
     },
     notifyFailed: async (id) => {
