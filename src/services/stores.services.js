@@ -54,4 +54,9 @@ export const storeServices = {
             `${baseUrl}/DeActiveStore?storeId=${storeId}`, null
         )
     },
+    getStoreStatic: async (storeId, year, payment) => {
+        return await api.get(
+            `https://takefood-orderservice.azurewebsites.net/api/Revenue/RevenueOfYear?storeID=${storeId}&year=${year}&paymentMethod=${payment}`
+        )
+    },
 }
