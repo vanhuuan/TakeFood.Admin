@@ -8,6 +8,7 @@ const PaymentStatistic = ({ payment, storeId }) => {
   const [isLoading, setLoading] = useState(true)
   const [data, setData] = useState()
   const [textShow, setTextShow] = useState(" ")
+  const columnWidth = '7%'
 
   const getRevenue = async (payment, storeId) => {
     try {
@@ -25,11 +26,11 @@ const PaymentStatistic = ({ payment, storeId }) => {
 
   useEffect(() => {
     getRevenue(payment, storeId)
-    if(payment === 'All'){
+    if (payment === 'All') {
       setTextShow("Tất cả")
-    }else if(payment === 'Tien mat'){
+    } else if (payment === 'Tien mat') {
       setTextShow("Tiền mặt")
-    }else{
+    } else {
       setTextShow(payment)
     }
   }, []);
@@ -39,27 +40,27 @@ const PaymentStatistic = ({ payment, storeId }) => {
       <Typography align='center' margin={1}>Doanh thu qua thanh toán bằng {textShow} </Typography>
       {isLoading ? <CircularProgress sx={{ alignSelf: 'center' }} /> :
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 350 }} aria-label="simple table">
+          <Table sx={{ minWidth: 350, overflow: 'auto' }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align='center'>Tháng</TableCell>
                 {
                   data.map((row) => (
-                    <TableCell align="right">{row.month}</TableCell>
+                    <TableCell align="right" sx={{ minWidth: columnWidth, maxWidth: columnWidth }}>{row.month}</TableCell>
                   ))
                 }
-                
+
               </TableRow>
             </TableHead>
             <TableBody>
-                <TableRow>
-                  <TableCell align="center">Doanh thu</TableCell>
-                  {data.map((row) => (
-                  <TableCell align="right">
+              <TableRow>
+                <TableCell align="center">Doanh thu</TableCell>
+                {data.map((row) => (
+                  <TableCell align="right" sx={{ minWidth: columnWidth, maxWidth: columnWidth }}>
                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(row.revenue)}
                   </TableCell>
                 ))}
-                </TableRow>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

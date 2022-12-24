@@ -9,20 +9,20 @@ const Statistics = () => {
     const { id } = state;
 
     return (
-        <Box sx={{ margin: 2 }}>
-            <Grid container spacing={2} >
-                <Grid item xs={12} component={Paper} sx={{ margin: 2 }}>
+        <Box sx={{ margin: 1 }}>
+            <Grid container>
+                <Grid item xs={12} component={Paper} sx={{ padding: 2 }}>
                     <Typography variant='h6' sx={{ textAlign: 'center' }}>Chi tiết doanh thu</Typography>
-                    <Stack sx={{ paddingLeft: 1, paddingRight: 3, paddingY: 3 }}>
+                    <Stack >
                         <Divider sx={{ marginY: 3 }} />
                         <PaymentStatistic payment={'All'} storeId={id} />
-                        <Divider variant="middle" />
+                        <Divider variant="middle" sx={{ marginY: 2 }} />
                         <PaymentStatistic payment={'Tien mat'} storeId={id} />
-                        <Divider variant="middle" />
-                        <PaymentStatistic payment={'Paypal - Thanh toán thành công'} storeId={id}/>
-                        <Divider variant="middle" />
+                        <Divider variant="middle" sx={{ marginY: 2 }} />
+                        <PaymentStatistic payment={'Paypal - Thanh toán thành công'} storeId={id} />
+                        <Divider variant="middle" sx={{ marginY: 2 }} />
                         <PaymentStatistic payment={'Paypal - Thanh toán không thành công'} storeId={id} />
-                        <Divider variant="middle" />
+                        <Divider variant="middle" sx={{ marginY: 2 }} />
                         <PaymentStatistic payment={'Paypal - Chưa thanh toán'} storeId={id} />
                     </Stack>
                 </Grid>
