@@ -12,6 +12,7 @@ const CreateVoucher = () => {
 
     const storeId = localStorage.getItem("StoreId")
     const token = localStorage.getItem("AccessToken")
+    const [notifyText, setNotifyText] = useState('')
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [minSpend, setMinSpend] = useState(0)
@@ -22,6 +23,14 @@ const CreateVoucher = () => {
     const [expireDay, setExpireDay] = useState(moment())
 
     const handleSubmit = async () => {
+        if (amount > 100) {
+            setNotifyText('Mức giảm không được vượt quá 100%')
+            return
+        }
+        if (maxDiscount > Number.MAX_SAFE_INTEGER || minSpend > Number.MAX_SAFE_INTEGER) {
+            setNotifyText('Số tiền quá lớn')
+            return
+        }
         let info = {
             name, description, minSpend, amount, maxDiscount, code,
             startDay: new Date(startDay).toISOString(),
@@ -201,6 +210,8 @@ const CreateVoucher = () => {
                         </LocalizationProvider>
                     </Grid>
                 </Grid>
+                <Typography color='error'>{notifyText}</Typography>
+
             </Box>
             <Box
                 sx={{
