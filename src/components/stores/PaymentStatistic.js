@@ -28,8 +28,7 @@ const PaymentStatistic = ({ payment, storeId, showText, yearNum , dateStart, dat
     try {
       const revenue = await storeServices.getStoreDaysStatic(storeId, payment, dateStart, endDate)
       if (revenue.data) {
-        setData([revenue.data])
-        console.log([data])
+        setData(revenue.data)
       }
     } catch (error) {
       console.error(error);

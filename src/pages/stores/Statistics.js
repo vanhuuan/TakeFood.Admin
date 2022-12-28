@@ -16,12 +16,12 @@ const Statistics = () => {
     const [sortBy, setSortBy] = useState("Year")
     const [mode, setMode] = useState(true)
     const [ye, setYe] = useState("2022")
-    const [startDay, setStartDay] = React.useState(dayjs.unix(1640970001));
+    const [startDay, setStartDay] = React.useState(dayjs().subtract(6, 'day'));
 
     const handleStartDayChange = (newValue) => {
         setStartDay(newValue);
     };
-    const [endDay, setEndDay] = React.useState(dayjs.unix(1672505999));
+    const [endDay, setEndDay] = React.useState(dayjs());
 
     const handleEndDayChange = (newValue) => {
         setEndDay(newValue);
@@ -35,11 +35,16 @@ const Statistics = () => {
     const fetchData = async () =>{
         setMode(mode)
         console.log(mode)
+        if(ye==="2022"){
+            setYe("2023")
+        }else{
+            setYe("2022")
+        }
     }
 
     useEffect(() => {
         setMode(mode)
-    }, [mode]);
+    }, [ye]);
 
     return (
         <Box sx={{ margin: 1 }}>
@@ -89,40 +94,40 @@ const Statistics = () => {
             </IconButton>
             {(mode)?
                 <Grid container> 
-                <Grid item xs={12} component={Paper} sx={{ padding: 2 }}>
-                    <Typography variant='h6' sx={{ textAlign: 'center' }}>Chi tiết doanh thu</Typography>
-                    <Stack >
-                        <Divider sx={{ marginY: 3 }} />
-                        <PaymentStatistic payment={'All'} storeId={id} showText={sortBy} yearNum={ye}/>
-                        <Divider variant="middle" sx={{ marginY: 2 }} />
-                        <PaymentStatistic payment={'Tien mat'} storeId={id} showText={sortBy} yearNum={ye}/>
-                        <Divider variant="middle" sx={{ marginY: 2 }} />
-                        <PaymentStatistic payment={'Paypal - Thanh toán thành công'} storeId={id}  showText={sortBy} yearNum={ye}/>
-                        <Divider variant="middle" sx={{ marginY: 2 }} />
-                        <PaymentStatistic payment={'Paypal - Thanh toán không thành công'} storeId={id} showText={sortBy} yearNum={ye}/>
-                        <Divider variant="middle" sx={{ marginY: 2 }} />
-                        <PaymentStatistic payment={'Paypal - Chưa thanh toán'} storeId={id} showText={sortBy} yearNum={ye}/>
-                    </Stack>
-                </Grid>
+                    <Grid item xs={12} component={Paper} sx={{ padding: 2 }}>
+                        <Typography variant='h6' sx={{ textAlign: 'center' }}>Chi tiết doanh thu</Typography>
+                        <Stack >
+                            <Divider sx={{ marginY: 3 }} />
+                            <PaymentStatistic payment={'All'} storeId={id} showText={sortBy} yearNum={ye}/>
+                            <Divider variant="middle" sx={{ marginY: 2 }} />
+                            <PaymentStatistic payment={'Tien mat'} storeId={id} showText={sortBy} yearNum={ye}/>
+                            <Divider variant="middle" sx={{ marginY: 2 }} />
+                            <PaymentStatistic payment={'Paypal - Thanh toán thành công'} storeId={id}  showText={sortBy} yearNum={ye}/>
+                            <Divider variant="middle" sx={{ marginY: 2 }} />
+                            <PaymentStatistic payment={'Paypal - Thanh toán không thành công'} storeId={id} showText={sortBy} yearNum={ye}/>
+                            <Divider variant="middle" sx={{ marginY: 2 }} />
+                            <PaymentStatistic payment={'Paypal - Chưa thanh toán'} storeId={id} showText={sortBy} yearNum={ye}/>
+                        </Stack>
+                    </Grid>
                 </Grid>
                 :
                 <Grid container> 
-                "Hehehe"
-                <Grid item xs={12} component={Paper} sx={{ padding: 2 }}>
-                    <Typography variant='h6' sx={{ textAlign: 'center' }}>Chi tiết doanh thu</Typography>
-                    <Stack >
-                        <Divider sx={{ marginY: 3 }} />
-                        <PaymentStatistic payment={'All'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} showText={sortBy}/>
-                        <Divider variant="middle" sx={{ marginY: 2 }} />
-                        <PaymentStatistic payment={'Tien mat'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} showText={sortBy}/>
-                        <Divider variant="middle" sx={{ marginY: 2 }} />
-                        <PaymentStatistic payment={'Paypal - Thanh toán thành công'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} showText={sortBy}/>
-                        <Divider variant="middle" sx={{ marginY: 2 }} />
-                        <PaymentStatistic payment={'Paypal - Thanh toán không thành công'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} showText={sortBy}/>
-                        <Divider variant="middle" sx={{ marginY: 2 }} />dateEnd
-                        <PaymentStatistic payment={'Paypal - Chưa thanh toán'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} showText={sortBy}/>
-                    </Stack>
-                </Grid>
+                <Typography variant='h6' sx={{ textAlign: 'center' }}></Typography>
+                    <Grid item xs={12} component={Paper} sx={{ padding: 2 }}>
+                        <Typography variant='h6' sx={{ textAlign: 'center' }}>Chi tiết doanh thu</Typography>
+                        <Stack >
+                            <Divider sx={{ marginY: 3 }} />
+                            <PaymentStatistic payment={'All'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} yearNum={ye} showText={sortBy}/>
+                            <Divider variant="middle" sx={{ marginY: 2 }} />
+                            <PaymentStatistic payment={'Tien mat'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} yearNum={ye} showText={sortBy}/>
+                            <Divider variant="middle" sx={{ marginY: 2 }} />
+                            <PaymentStatistic payment={'Paypal - Thanh toán thành công'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} yearNum={ye} showText={sortBy}/>
+                            <Divider variant="middle" sx={{ marginY: 2 }} />
+                            <PaymentStatistic payment={'Paypal - Thanh toán không thành công'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} yearNum={ye} showText={sortBy}/>
+                            <Divider variant="middle" sx={{ marginY: 2 }} />
+                            <PaymentStatistic payment={'Paypal - Chưa thanh toán'} storeId={id} dateStart={startDay.toISOString()} dateEnd={endDay.toISOString()} yearNum={ye} showText={sortBy}/>
+                        </Stack>
+                    </Grid>
                 </Grid>
             } 
         </Box>
