@@ -59,4 +59,9 @@ export const storeServices = {
             `https://takefood-orderservice.azurewebsites.net/api/Revenue/RevenueOfYear?storeID=${storeId}&year=${year}&paymentMethod=${payment}`
         )
     },
+    getStoreDaysStatic: async (storeId, payment, start, end) => {
+        return await api.get(
+            `https://takefood-orderservice.azurewebsites.net/api/Revenue/RevenueDayToDay?storeID=${storeId}&start=${start}&end=${end}&paymentMethod=${payment}`
+        )
+    },
 }

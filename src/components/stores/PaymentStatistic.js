@@ -3,16 +3,16 @@ import React from 'react'
 import { storeServices } from '../../services/stores.services'
 import { useEffect, useState } from 'react'
 import { CircularProgress, Typography } from '@mui/material'
-const PaymentStatistic = ({ payment, storeId }) => {
+const PaymentStatistic = ({ payment, storeId, showText, yearNum , dateStart, dateEnd}) => {
 
   const [isLoading, setLoading] = useState(true)
   const [data, setData] = useState()
   const [textShow, setTextShow] = useState(" ")
   const columnWidth = '7%'
 
-  const getRevenue = async (payment, storeId) => {
+  const getRevenue = async (payment, yearNum , storeId) => {
     try {
-      const revenue = await storeServices.getStoreStatic(storeId, 2022, payment)
+      const revenue = await storeServices.getStoreStatic(storeId, yearNum, payment)
       if (revenue.data) {
         setData(revenue.data)
       }
@@ -24,14 +24,40 @@ const PaymentStatistic = ({ payment, storeId }) => {
     }
   }
 
-  useEffect(() => {
-    getRevenue(payment, storeId)
-    if (payment === 'All') {
-      setTextShow("Tất cả")
-    } else if (payment === 'Tien mat') {
-      setTextShow("Tiền mặt")
-    } else {
-      setTextShow(payment)
+  const getRevenueDays = async (payment, storeId, dateStart, endDate) => {
+    try {
+      const revenue = await storeServices.getStoreDaysStatic(storeId, payment, dateStart, endDate)
+      if (revenue.data) {
+        setData([revenue.data])
+        console.log([data])
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect( () => {
+    if(dateEnd){
+      getRevenueDays(payment, storeId, dateStart, dateEnd)
+      if (payment === 'All') {
+        setTextShow("Tất cả")
+      } else if (payment === 'Tien mat') {
+        setTextShow("Tiền mặt")
+      } else {
+        setTextShow(payment)
+      }
+    }else{
+      getRevenue(payment, yearNum, storeId)
+      if (payment === 'All') {
+        setTextShow("Tất cả")
+      } else if (payment === 'Tien mat') {
+        setTextShow("Tiền mặt")
+      } else {
+        setTextShow(payment)
+      }
     }
   }, []);
 
@@ -43,7 +69,7 @@ const PaymentStatistic = ({ payment, storeId }) => {
           <Table sx={{ minWidth: 350, overflow: 'auto' }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align='center'>Tháng</TableCell>
+                <TableCell align='center'>{showText==="Year"?"Tháng":"Ngày"}</TableCell>
                 {
                   data.map((row) => (
                     <TableCell align="right" sx={{ minWidth: columnWidth, maxWidth: columnWidth }}>{row.month}</TableCell>
